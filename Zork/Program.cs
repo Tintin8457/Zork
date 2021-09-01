@@ -9,22 +9,21 @@ namespace Zork
             Console.WriteLine("Welcome to Zork!");
 
             //Take in commands and identify them as uppercase
-            string inputString = Console.ReadLine().ToUpper();
+            string inputString = Console.ReadLine();
+            Commands command = ToCommand(inputString.Trim().ToUpper());
+            Console.WriteLine(command);
+        }
 
-            //Check for look and quit commands
-            if (inputString == "QUIT")
+        private static Commands ToCommand(string commandString)
+        {
+            try
             {
-                Console.WriteLine("Thank you for playing.");
+                return Enum.Parse<Commands>(commandString);
             }
 
-            else if (inputString == "LOOK")
+            catch
             {
-                Console.WriteLine("This is an open field west of a white house, with a boarded front door.\nA rubber mat saying 'Welcome to Zork!' lies by the door.");
-            }
-
-            else
-            {
-                Console.WriteLine("Unrecognized command.");
+                return Commands.UNKNOWN;
             }
         }
     }
