@@ -8,9 +8,6 @@
         NORTH,
         SOUTH,
         WEST,
-        EAST,
-        JUMP,
-        GET,
-        PUT
+        EAST
     }
 }
