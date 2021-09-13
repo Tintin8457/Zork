@@ -8,7 +8,7 @@ namespace Zork
         {
             get
             {
-                return Rooms[locationColumn];
+                return Rooms[Locate.locationRow, Locate.locationColumn];
             }
         }
 
@@ -40,7 +40,7 @@ namespace Zork
 
                     case Commands.NORTH:
                     case Commands.SOUTH:
-                    case Commands.WEST:  
+                    case Commands.WEST:
                     case Commands.EAST:
                         outputString = Move(command) ? $"You moved {command}." : "The way is shut!";
                         break;
@@ -60,17 +60,23 @@ namespace Zork
 
             switch (command)
             {
-                case Commands.NORTH:
-                case Commands.SOUTH:
-                    break;
-
-                case Commands.WEST when locationColumn > 0:
-                    locationColumn--;
+                case Commands.NORTH when Locate.locationRow < Rooms.GetLength(1) - 1:
+                    Locate.locationRow++;
                     didMove = true;
                     break;
 
-                case Commands.EAST when locationColumn < Rooms.Length - 1:
-                    locationColumn++;
+                case Commands.SOUTH when Locate.locationRow > 0:
+                    Locate.locationRow--;
+                    didMove = true;
+                    break;
+
+                case Commands.WEST when Locate.locationColumn > 0:
+                    Locate.locationColumn--;
+                    didMove = true;
+                    break;
+
+                case Commands.EAST when Locate.locationColumn < Rooms.GetLength(1) - 1:
+                    Locate.locationColumn++;
                     didMove = true;
                     break;
             }
@@ -91,7 +97,13 @@ namespace Zork
             }
         }
 
-        private static string[] Rooms = { "Forest", "West of House", "Behind House", "Clearing", "Canyon View"};
-        private static int locationColumn = 1;
+        private static readonly string[,] Rooms =
+        {
+            { "Rocky Trail", "South of House", "Canyon View" },
+            { "Forest", "West of House", "Behind House" },
+            { "Dense Woods", "North of House", "Clearing" }
+        };
+
+        private static (int locationRow, int locationColumn) Locate = (1, 1);
     }
 }
