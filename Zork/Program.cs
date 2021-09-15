@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Zork
 {
     class Program
     {
-        private static string CurrentLocation
+        private static string Location
         {
             get
             {
-                return Rooms[Locate.row, Locate.column];
+                return Rooms[Locate.locationRow, Locate.locationColumn];
             }
         }
 
@@ -21,7 +20,7 @@ namespace Zork
 
             while (command != Commands.QUIT)
             {
-                Console.Write($"{CurrentLocation}\n> ");
+                Console.Write($"{Location}\n> ");
 
                 //Take in commands and identify them as uppercase
                 string inputString = Console.ReadLine();
@@ -57,28 +56,27 @@ namespace Zork
 
         private static bool Move(Commands command)
         {
-            Assert.IsTrue(IsDirection(command), "Invalid direction.");
             bool didMove = false;
 
             switch (command)
             {
-                case Commands.NORTH when Locate.row < Rooms.GetLength(0) - 1:
-                    Locate.row++;
+                case Commands.NORTH when Locate.locationRow < Rooms.GetLength(1) - 1:
+                    Locate.locationRow++;
                     didMove = true;
                     break;
 
-                case Commands.SOUTH when Locate.row > 0:
-                    Locate.row--;
+                case Commands.SOUTH when Locate.locationRow > 0:
+                    Locate.locationRow--;
                     didMove = true;
                     break;
 
-                case Commands.WEST when Locate.column > 0:
-                    Locate.column--;
+                case Commands.WEST when Locate.locationColumn > 0:
+                    Locate.locationColumn--;
                     didMove = true;
                     break;
 
-                case Commands.EAST when Locate.column < Rooms.GetLength(1) - 1:
-                    Locate.column++;
+                case Commands.EAST when Locate.locationColumn < Rooms.GetLength(1) - 1:
+                    Locate.locationColumn++;
                     didMove = true;
                     break;
             }
@@ -99,8 +97,6 @@ namespace Zork
             }
         }
 
-        private static bool IsDirection(Commands command) => Directions.Contains(command);
-
         private static readonly string[,] Rooms =
         {
             { "Rocky Trail", "South of House", "Canyon View" },
@@ -108,14 +104,6 @@ namespace Zork
             { "Dense Woods", "North of House", "Clearing" }
         };
 
-        private static readonly List<Commands> Directions = new List<Commands>
-        {
-            Commands.NORTH,
-            Commands.SOUTH,
-            Commands.WEST,
-            Commands.EAST
-        };
-
-        private static (int row, int column) Locate = (1, 1);
+        private static (int locationRow, int locationColumn) Locate = (1, 1);
     }
 }
