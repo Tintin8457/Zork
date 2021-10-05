@@ -1,28 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Zork
 {
     class Program
     {
-        private static Room Location
+        public static Room Location
         {
             get
             {
                 return Rooms[Locate.locationRow, Locate.locationColumn];
-            }
-        }
-
-        private static readonly Dictionary<string, Room> RoomMap;
-
-        static Program()
-        {
-            RoomMap = new Dictionary<string, Room>();
-
-            foreach (Room room in Rooms)
-            {
-                RoomMap[room.Name] = room;
             }
         }
 
@@ -34,14 +23,14 @@ namespace Zork
 
         static void Main(string[] args)
         {
-            string roomsFileName = "Rooms.txt";
-            
+            string roomsFileName = "Rooms.json";
+
             Console.WriteLine("Welcome to Zork!");
 
+            Room previousRoom = null;
             Commands command = Commands.UNKNOWN;
 
-            Room previousRoom = null;
-            InitializeRoomDescriptions(roomsFileName);
+            InitializeRooms(roomsFileName);
 
             bool displayLocationName = true;
 
@@ -91,7 +80,7 @@ namespace Zork
                         {
                             Console.WriteLine("The way is shut!");
                         }
-                        
+
                         break;
 
                     default:
@@ -145,35 +134,10 @@ namespace Zork
             }
         }
 
-        private static readonly Room[,] Rooms =
-        {
-            { new Room("Rocky Trail"), new Room("South of House"), new Room("Canyon View") },
-            { new Room("Forest"), new Room("West of House"), new Room("Behind House") },
-            { new Room("Dense Woods"), new Room("North of House"), new Room("Clearing") }
-        };
+        private static Room[,] Rooms;
 
-        private static void InitializeRoomDescriptions(string roomsFileName)
-        {
-            const string delimiter = "##";
-            const int expectedFieldCount = 2;
-
-            string[] lines = File.ReadAllLines(roomsFileName);
-
-            foreach (string line in lines)
-            {
-                string[] fields = line.Split(delimiter);
-
-                if (fields.Length != expectedFieldCount)
-                {
-                    throw new InvalidDataException("Invalid record.");
-                }
-
-                string name = fields[(int)Fields.Name];
-                string description = fields[(int)Fields.Description];
-
-                RoomMap[name].Description = description;
-            }
-        }
+        private static void InitializeRooms(string roomsFileName) =>
+            Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomsFileName));
 
         private static (int locationRow, int locationColumn) Locate = (1, 1);
     }
