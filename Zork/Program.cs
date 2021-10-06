@@ -7,91 +7,108 @@ namespace Zork
 {
     class Program
     {
-        public static Room Location
+        /*public static Room Location
         {
             get
             {
                 return Rooms[Locate.locationRow, Locate.locationColumn];
             }
-        }
+        }*/
 
-        private enum Fields
+        /*private enum Fields
         {
             Name,
             Description
-        }
+        }*/
+
+        /*public enum Directions
+        {
+            North,
+            South,
+            East,
+            West
+        }*/
 
         static void Main(string[] args)
         {
-            string roomsFileName = "Rooms.json";
+            const string defaultZorkFileName = "Zork.json";
+            string gameFileName = (args.Length > 0 ? args[(int)CommandLineArguments.GameFilename] : defaultZorkFileName);
 
+            Game game = Game.Load(gameFileName);
             Console.WriteLine("Welcome to Zork!");
+            game.Run();
+            Console.WriteLine("Thank you for playing!");
 
-            Room previousRoom = null;
-            Commands command = Commands.UNKNOWN;
+            //Room previousRoom = null;
+            //Commands command = Commands.UNKNOWN;
 
-            InitializeRooms(roomsFileName);
+        //InitializeRooms(roomsFileName);
 
-            bool displayLocationName = true;
+        //bool displayLocationName = true;
 
-            while (command != Commands.QUIT)
+        /*while (command != Commands.QUIT)
+        {
+            if (displayLocationName)
             {
-                if (displayLocationName)
-                {
-                    Console.WriteLine(Location.Name);
-                }
-
-                if (previousRoom != Location)
-                {
-                    Console.WriteLine(Location.Description);
-                    previousRoom = Location;
-                }
-
-                Console.Write("> ");
-
-                //Take in commands and identify them as uppercase
-                string inputString = Console.ReadLine();
-                command = ToCommand(inputString.Trim().ToUpper());
-
-                switch (command)
-                {
-                    case Commands.QUIT:
-                        Console.WriteLine("Thank you for playing");
-                        break;
-
-                    case Commands.LOOK:
-                        displayLocationName = false;
-
-                        if (!displayLocationName)
-                        {
-                            Console.WriteLine(Location.Name);
-                        }
-
-                        Console.WriteLine(Location.Description);
-                        break;
-
-                    case Commands.NORTH:
-                    case Commands.SOUTH:
-                    case Commands.WEST:
-                    case Commands.EAST:
-                        displayLocationName = true;
-
-                        if (Move(command) == false)
-                        {
-                            Console.WriteLine("The way is shut!");
-                        }
-
-                        break;
-
-                    default:
-                        Console.WriteLine("Unrecognized command.");
-                        displayLocationName = true;
-                        break;
-                }
+                Console.WriteLine(Location.Name);
             }
+
+            if (previousRoom != Location)
+            {
+                Console.WriteLine(Location.Description);
+                previousRoom = Location;
+            }
+
+            Console.Write("> ");
+
+            //Take in commands and identify them as uppercase
+            string inputString = Console.ReadLine();
+            command = ToCommand(inputString.Trim().ToUpper());
+
+            switch (command)
+            {
+                case Commands.QUIT:
+                    Console.WriteLine("Thank you for playing");
+                    break;
+
+                case Commands.LOOK:
+                    displayLocationName = false;
+
+                    if (!displayLocationName)
+                    {
+                        Console.WriteLine(Location.Name);
+                    }
+
+                    Console.WriteLine(Location.Description);
+                    break;
+
+                case Commands.NORTH:
+                case Commands.SOUTH:
+                case Commands.WEST:
+                case Commands.EAST:
+                    displayLocationName = true;
+
+                    if (Move(command) == false)
+                    {
+                        Console.WriteLine("The way is shut!");
+                    }
+
+                    break;
+
+                default:
+                    Console.WriteLine("Unrecognized command.");
+                    displayLocationName = true;
+                    break;
+            }
+        }*/
         }
 
-        private static bool Move(Commands command)
+        private enum CommandLineArguments
+        {
+            GameFilename = 0
+        }
+
+        /*private static bool Move(Commands command)
         {
             bool didMove = false;
 
@@ -119,9 +136,9 @@ namespace Zork
             }
 
             return didMove;
-        }
+        }*/
 
-        private static Commands ToCommand(string commandString)
+        /*private static Commands ToCommand(string commandString)
         {
             try
             {
@@ -132,13 +149,13 @@ namespace Zork
             {
                 return Commands.UNKNOWN;
             }
-        }
+        }*/
 
-        private static Room[,] Rooms;
+        /*private static Room[,] Rooms;*/
 
-        private static void InitializeRooms(string roomsFileName) =>
-            Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomsFileName));
+        /*private static void InitializeRooms(string roomsFileName) =>
+            Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomsFileName));*/
 
-        private static (int locationRow, int locationColumn) Locate = (1, 1);
+        //private static (int locationRow, int locationColumn) Locate = (1, 1);
     }
 }
