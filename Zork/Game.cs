@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using System.Runtime.Serialization;
 
 namespace Zork
 {
     public class Game
     {
-        public World World { get; private set; }
+        public World World { get; set; }
 
         [JsonIgnore]
         public Player Player { get; private set; }
@@ -49,7 +48,6 @@ namespace Zork
                         Console.WriteLine(Player.Location.Description);
                         break;
 
-
                     case Commands.NORTH:
                     case Commands.SOUTH:
                     case Commands.EAST:
@@ -69,6 +67,7 @@ namespace Zork
                 }
             }
         }
+
         public static Game Load(string filename)
         {
             Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(filename));
@@ -78,18 +77,5 @@ namespace Zork
         }
 
         private static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands result) ? result: Commands.UNKNOWN;
-
-        //Video
-        /*public string StartLocation { get; set; }
-
-        [JsonIgnore]
-        public Player player { get; private set; }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext context)
-        {
-            player = new Player(World, StartLocation);
-        }*/
     }
-
 }

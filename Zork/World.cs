@@ -12,7 +12,7 @@ namespace Zork
         [JsonIgnore]
         public IReadOnlyDictionary<string, Room> RoomNames => mRoomNames;
 
-        public Player SpawnPlayer() => new Player(this, StartLocation);
+        public Player SpawnPlayer() => new Player(this, StartingLocation);
 
         public Player Player { get; set; }
 
@@ -28,7 +28,7 @@ namespace Zork
         }
 
         [JsonProperty]
-        private string StartLocation { get; set; }
+        private string StartingLocation { get; set; }
 
         private Dictionary<string, Room> mRoomNames;
     }

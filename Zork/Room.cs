@@ -7,14 +7,6 @@ namespace Zork
 {
     public class Room : IEquatable<Room>
     {
-        /*public enum Directions
-        {
-            North,
-            South,
-            East,
-            West
-        }*/
-
         [JsonProperty(Order = 1)]
         public string Name { get; private set; }
 
@@ -51,12 +43,6 @@ namespace Zork
         public override string ToString() => Name;
 
         public override int GetHashCode() => Name.GetHashCode();
-
-        /*public Room (string rName, string rInfo = "")
-        {
-            Name = rName;
-            Description = rInfo;
-        }*/
 
         public void UpdateNeighbors(World world) => Neighbors = (from entry in NeighborNames
                                                                  let room = world.RoomNames.GetValueOrDefault(entry.Value)
