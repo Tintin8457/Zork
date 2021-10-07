@@ -20,6 +20,9 @@ namespace Zork
             Player = mPlayer;
         }
 
+        public int playerScore = 0;
+        public int playerMoves = 0;
+
         public void Run()
         {
             IsRunning = true;
@@ -46,6 +49,16 @@ namespace Zork
 
                     case Commands.LOOK:
                         Console.WriteLine(Player.Location.Description);
+                        playerMoves++;
+                        break;
+
+                    case Commands.SCORE:
+                        Console.WriteLine("Your score would be " + playerScore + " in " + playerMoves + " moves.");
+                        playerMoves++;
+                        break;
+
+                    case Commands.REWARD:
+                        playerScore++;
                         break;
 
                     case Commands.NORTH:
@@ -53,10 +66,12 @@ namespace Zork
                     case Commands.EAST:
                     case Commands.WEST:
                         Directions direction = Enum.Parse<Directions>(command.ToString(), true);
+                        playerMoves++;
 
-                        if(Player.Move(direction) == false)
+                        if (Player.Move(direction) == false)
                         {
                             Console.WriteLine("The way is shut!");
+                            playerMoves++;
                         }
 
                         break;

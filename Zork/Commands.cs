@@ -5,6 +5,8 @@
         UNKNOWN,
         QUIT,
         LOOK,
+        SCORE,
+        REWARD,
         NORTH,
         SOUTH,
         WEST,
