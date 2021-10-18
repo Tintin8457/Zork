@@ -10,7 +10,7 @@ namespace Zork
         public HashSet<Room> Rooms { get; set; }
 
         [JsonIgnore]
-        public IReadOnlyDictionary<string, Room> RoomNames => mRoomNames;
+        public Dictionary<string, Room> RoomNames => mRoomNames;
 
         public Player SpawnPlayer() => new Player(this, StartingLocation);
 
