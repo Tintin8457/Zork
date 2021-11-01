@@ -17,7 +17,7 @@ namespace Zork
         private Dictionary<Directions, string> NeighborNames { get; set; }
 
         [JsonIgnore]
-        public IReadOnlyDictionary<Directions, Room> Neighbors { get; private set; }
+        public Dictionary<Directions, Room> Neighbors { get; private set; }
         
         public static bool operator == (Room lhs, Room rhs)
         {
@@ -44,10 +44,13 @@ namespace Zork
 
         public override int GetHashCode() => Name.GetHashCode();
 
-        public void UpdateNeighbors(World world) => Neighbors = (from entry in NeighborNames
-                                                                 let room = world.RoomNames.GetValueOrDefault(entry.Value)
-                                                                 where room != null
-                                                                 select (Directions: entry.Key, Room: room))
-                                                                 .ToDictionary(pair => pair.Directions, pair => pair.Room);
+        public void UpdateNeighbors(World world)
+        {
+            foreach(var pair in NeighborNames)
+            {
+                (Directions direction, string name) = (pair.Key, pair.Value);
+                Neighbors.Add(direction, world.RoomNames[name]);
+            }
+        }
     }
 }
