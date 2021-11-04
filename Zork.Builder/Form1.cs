@@ -53,8 +53,6 @@ namespace Zork.Builder
 
         private void Open_File(object sender, EventArgs e)
         {
-            //
-            //MessageBox.Show("Open Game File");
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 InitialDirectory = @"C:\",
@@ -72,8 +70,6 @@ namespace Zork.Builder
                 ShowReadOnly = true
             };
 
-            //OpenFileDialog openFileDialog = new GetFileDialog { };
-
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 //Get selected file and store it
@@ -85,32 +81,37 @@ namespace Zork.Builder
                 currentGame.StartingLocation = gameFileObject["World"]["StartingLocation"].ToString();
                 currentGame.WelcomeMessage = gameFileObject["World"]["WelcomeMessage"].ToString();
 
-                //-------------Temporary placement for deserializing json file-------------------
-                ZorkGame.Game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(openFileDialog.FileName));
-                ZorkGame.Filename = openFileDialog.FileName;
+                currentGame.Rooms = new List<Room>();
 
                 IList<JToken> rooms = gameFileObject["World"]["Rooms"].Children().ToList();
                 foreach (JToken room in rooms)
                 {
-                    //Room newRoom = new Room();
-                    //newRoom.Name = room["Name"].ToString();
-                    //currentGame.Rooms.Add(room);
-
-                    string mName = room["Name"].ToString();
-                    string mDescription = room["Description"].ToString();
-                    Dictionary<string, string> mNeighbors = new Dictionary<string, string>();
-
-                    foreach (JToken neighbor in room["Neighbors"].Children().ToList())
+                    Room newRoom = new Room()
                     {
-                        mNeighbors.Add(neighbor.ToString(), neighbor.Value<string>());
-                    }
+                        Name = room["Name"].ToString(),
+                        Description = room["Description"].ToString(),
+                        Neighbors = new Neighbors()
+                        {
+                            North = room["Neighbors"]["North"]?.ToString(),
+                            South = room["Neighbors"]["South"]?.ToString(),
+                            West = room["Neighbors"]["West"]?.ToString(),
+                            East = room["Neighbors"]["East"]?.ToString(),
+                        },
+                    };
 
-                    currentGame.Rooms.Add((mName, mDescription, mNeighbors));
+                    currentGame.Rooms.Add(newRoom);
+                    newRoom = null;
                 }
+
+                int showRoom = 3;
 
                 MessageBox.Show(currentGame.StartingLocation);
                 MessageBox.Show(currentGame.WelcomeMessage);
-                MessageBox.Show(currentGame.Rooms[0].Item1);
+                MessageBox.Show($"Room: {currentGame.Rooms[showRoom].Name}\n" +
+                    $"North Neighbor: {currentGame.Rooms[showRoom].Neighbors.North}\n" +
+                    $"South Neighbor: {currentGame.Rooms[showRoom].Neighbors.South}\n" +
+                    $"West Neighbor: {currentGame.Rooms[showRoom].Neighbors.West}\n" +
+                    $"East Neighbor: {currentGame.Rooms[showRoom].Neighbors.East}");
             }
         }
 
@@ -122,8 +123,6 @@ namespace Zork.Builder
 
         private void Save_As_File(object sender, EventArgs e)
         {
-            //
-            //MessageBox.Show("Save Game File As...");
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Json files|*.json|All files|*.*";
             saveFileDialog.ShowDialog();
