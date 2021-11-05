@@ -4,9 +4,7 @@ namespace Zork.Builder
 {
     public class GameInstance
     {
-        public string StartingLocation { get; set; }
-        public string WelcomeMessage { get; set; }
-        public List<Room> Rooms { get; set; }
+
     }
 
     public class Neighbors
@@ -22,5 +20,17 @@ namespace Zork.Builder
         public string Name { get; set; }
         public string Description { get; set; }
         public Neighbors Neighbors { get; set; }
+    }
+
+    public class World
+    {
+        public string StartingLocation { get; set; }
+        public string WelcomeMessage { get; set; }
+        public List<Room> Rooms { get; set; }
+    }
+
+    public class Root
+    {
+        public World World { get; set; }
     }
 }

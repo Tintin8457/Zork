@@ -17,8 +17,8 @@ namespace Zork.Builder
 {
     public partial class Form1 : Form
     {
-        public GameInstance currentGame;
-        public JObject gameFileObject;
+        public Root StoredRoot = null;
+        public string CurrentFile = "";
 
         Stream fileStream;
 
@@ -50,12 +50,41 @@ namespace Zork.Builder
 
         private void New_File(object sender, EventArgs e)
         {
-            //
-            MessageBox.Show("New Game File");
+            //Create a new world in the form, but don't save or write it
+
+            StoredRoot = null;
+            CurrentFile = "";
+
+            StoredRoot = new Root()
+            {
+                World = new World()
+                {
+                    StartingLocation = "",
+                    WelcomeMessage = "Welcome to Zork!",
+                    Rooms = new List<Room>(),
+                },
+            };
+
+            StoredRoot.World.Rooms.Add(new Room()
+            {
+                Name = "Default Room",
+                Description = "Default Room Description",
+                Neighbors = new Neighbors()
+                {
+                    North = null,
+                    South = null,
+                    West = null,
+                    East = null,
+                },
+            });
+
+            MessageBox.Show($"Stored Root: {StoredRoot.World.WelcomeMessage}\n" +
+                $"File Name: {CurrentFile};");
         }
 
         private void Open_File(object sender, EventArgs e)
         {
+            //Open file dialog with settings
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 InitialDirectory = @"C:\",
@@ -76,94 +105,101 @@ namespace Zork.Builder
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 //Get selected file and store it
-                string chosenFile = openFileDialog.FileName;
-                gameFileObject = JObject.Parse(File.ReadAllText(@chosenFile));
-                currentGame = new GameInstance();
+                CurrentFile = openFileDialog.FileName;
 
-                //Assign values to stored references
-                currentGame.StartingLocation = gameFileObject["World"]["StartingLocation"].ToString();
-                currentGame.WelcomeMessage = gameFileObject["World"]["WelcomeMessage"].ToString();
+                MessageBox.Show(CurrentFile);
 
-                currentGame.Rooms = new List<Room>();
+                //Get the whole world from the file
+                StoredRoot = JsonConvert.DeserializeObject<Root>(File.ReadAllText(@CurrentFile));
 
-                IList<JToken> rooms = gameFileObject["World"]["Rooms"].Children().ToList();
-                foreach (JToken room in rooms)
-                {
-                    Room newRoom = new Room()
-                    {
-                        Name = room["Name"].ToString(),
-                        Description = room["Description"].ToString(),
-                        Neighbors = new Neighbors()
-                        {
-                            North = room["Neighbors"]["North"]?.ToString(),
-                            South = room["Neighbors"]["South"]?.ToString(),
-                            West = room["Neighbors"]["West"]?.ToString(),
-                            East = room["Neighbors"]["East"]?.ToString(),
-                        },
-                    };
-
-                    currentGame.Rooms.Add(newRoom);
-                    //JsonConvert.DeserializeObject<Game>(File.ReadAllText(newRoom.Name));
-                    newRoom = null;
-                }
-
-                int showRoom = 3;
-
-                MessageBox.Show(currentGame.StartingLocation);
-                MessageBox.Show(currentGame.WelcomeMessage);
-                MessageBox.Show($"Room: {currentGame.Rooms[showRoom].Name}\n" +
-                    $"North Neighbor: {currentGame.Rooms[showRoom].Neighbors.North}\n" +
-                    $"South Neighbor: {currentGame.Rooms[showRoom].Neighbors.South}\n" +
-                    $"West Neighbor: {currentGame.Rooms[showRoom].Neighbors.West}\n" +
-                    $"East Neighbor: {currentGame.Rooms[showRoom].Neighbors.East}");
+                MessageBox.Show("File Successfully Loaded!");
             }
         }
 
         private void Save_File(object sender, EventArgs e)
         {
-            //
-            MessageBox.Show("Save Game File");
+            if (CurrentFile == "")
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "Json files|*.json|All files|*.*",
+                };
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CurrentFile = saveFileDialog.FileName;
+
+                    MessageBox.Show(CurrentFile);
+                }
+            }
+
+            //convert to json
+            string json = JsonConvert.SerializeObject(StoredRoot, Formatting.Indented);
+
+            //write json to the current file
+            File.WriteAllText(CurrentFile, json);
         }
 
         private void Save_As_File(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Json files|*.json|All files|*.*";
-            saveFileDialog.ShowDialog();
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                if ((fileStream = saveFileDialog.OpenFile()) != null)
-                {
-                    string fileName = saveFileDialog.FileName;
-                    //FileStream fileReader = (FileStream)saveFileDialog.OpenFile();
-                    //fileReader.Close();
+                Filter = "Json files|*.json|All files|*.*",
+            };
 
-                    WriteGameFile(fileName);
-                    fileStream.Close();
-                }
+            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                CurrentFile = saveFileDialog.FileName;
+
+                MessageBox.Show(CurrentFile);
+
+                //convert to json
+                string json = JsonConvert.SerializeObject(StoredRoot, Formatting.Indented);
+
+                //write json to the current file
+                File.WriteAllText(CurrentFile, json);
             }
         }
 
-        private void WriteGameFile(string gameFileName)
-        {
-            try
-            {
-                using (FileStream fileWriter = File.Open(gameFileName + ".json", FileMode.CreateNew))
-                using (StreamWriter writeToGameFile = new StreamWriter(fileWriter))
-                using (JsonWriter writetoGameContent = new JsonTextWriter(writeToGameFile))
-                {
-                    writetoGameContent.Formatting = Formatting.Indented;
-                    JsonSerializer serializer = new JsonSerializer();
-                    //serializer.Serialize(writetoGameContent); -----------this bit will not work because it needs a certain second argument--------------
-                }
-            }
+        //private void Save_As_File(object sender, EventArgs e)
+        //{
+        //    SaveFileDialog saveFileDialog = new SaveFileDialog();
+        //    saveFileDialog.Filter = "Json files|*.json|All files|*.*";
+        //    saveFileDialog.ShowDialog();
 
-            catch (Exception exception)
-            {
-                MessageBox.Show("Error: Unable to save file.");
-            }
-        }
+        //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        //    {
+        //        if ((fileStream = saveFileDialog.OpenFile()) != null)
+        //        {
+        //            string fileName = saveFileDialog.FileName;
+        //            //FileStream fileReader = (FileStream)saveFileDialog.OpenFile();
+        //            //fileReader.Close();
+
+        //            WriteGameFile(fileName);
+        //            fileStream.Close();
+        //        }
+        //    }
+        //}
+
+        //private void WriteGameFile(string gameFileName)
+        //{
+        //    try
+        //    {
+        //        using (FileStream fileWriter = File.Open(gameFileName + ".json", FileMode.CreateNew))
+        //        using (StreamWriter writeToGameFile = new StreamWriter(fileWriter))
+        //        using (JsonWriter writetoGameContent = new JsonTextWriter(writeToGameFile))
+        //        {
+        //            writetoGameContent.Formatting = Formatting.Indented;
+        //            JsonSerializer serializer = new JsonSerializer();
+        //            //serializer.Serialize(writetoGameContent); -----------this bit will not work because it needs a certain second argument--------------
+        //        }
+        //    }
+
+        //    catch (Exception exception)
+        //    {
+        //        MessageBox.Show("Error: Unable to save file.");
+        //    }
+        //}
 
         private GameViewModel mGameModel;
     }
