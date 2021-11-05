@@ -19,6 +19,9 @@ namespace Zork.Builder
     {
         public GameInstance currentGame;
         public JObject gameFileObject;
+
+        Stream fileStream;
+
         private GameViewModel ZorkGame 
         { 
             get => mGameModel;
@@ -100,6 +103,7 @@ namespace Zork.Builder
                     };
 
                     currentGame.Rooms.Add(newRoom);
+                    //JsonConvert.DeserializeObject<Game>(File.ReadAllText(newRoom.Name));
                     newRoom = null;
                 }
 
@@ -127,10 +131,37 @@ namespace Zork.Builder
             saveFileDialog.Filter = "Json files|*.json|All files|*.*";
             saveFileDialog.ShowDialog();
 
-            if (saveFileDialog.FileName != "")
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                FileStream fileReader = (FileStream)saveFileDialog.OpenFile();
-                fileReader.Close();
+                if ((fileStream = saveFileDialog.OpenFile()) != null)
+                {
+                    string fileName = saveFileDialog.FileName;
+                    //FileStream fileReader = (FileStream)saveFileDialog.OpenFile();
+                    //fileReader.Close();
+
+                    WriteGameFile(fileName);
+                    fileStream.Close();
+                }
+            }
+        }
+
+        private void WriteGameFile(string gameFileName)
+        {
+            try
+            {
+                using (FileStream fileWriter = File.Open(gameFileName + ".json", FileMode.CreateNew))
+                using (StreamWriter writeToGameFile = new StreamWriter(fileWriter))
+                using (JsonWriter writetoGameContent = new JsonTextWriter(writeToGameFile))
+                {
+                    writetoGameContent.Formatting = Formatting.Indented;
+                    JsonSerializer serializer = new JsonSerializer();
+                    //serializer.Serialize(writetoGameContent); -----------this bit will not work because it needs a certain second argument--------------
+                }
+            }
+
+            catch (Exception exception)
+            {
+                MessageBox.Show("Error: Unable to save file.");
             }
         }
 
