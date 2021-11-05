@@ -15,7 +15,7 @@ using Zork.Builder.ViewModel;
 
 namespace Zork.Builder
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         public Root StoredRoot = null;
         public string CurrentFile = "";
@@ -31,12 +31,12 @@ namespace Zork.Builder
                 if (mGameModel != value)
                 {
                     mGameModel = value;
-                    roomsBindingSource.DataSource = mGameModel;
+                    defaultBindingSource.DataSource = mGameModel;
                 }
             }
         }
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             ZorkGame = new GameViewModel();
@@ -78,6 +78,11 @@ namespace Zork.Builder
                 },
             });
 
+            //editorBindingSource.Add(StoredRoot.World.Rooms);
+            //Link to binding source in new file
+            roomsBindingSource.DataSource = StoredRoot.World.Rooms;
+            
+
             MessageBox.Show($"Stored Root: {StoredRoot.World.WelcomeMessage}\n" +
                 $"File Name: {CurrentFile};");
         }
@@ -111,6 +116,9 @@ namespace Zork.Builder
 
                 //Get the whole world from the file
                 StoredRoot = JsonConvert.DeserializeObject<Root>(File.ReadAllText(@CurrentFile));
+
+                //Link to binding source in existing file
+                roomsBindingSource.DataSource = CurrentFile;
 
                 MessageBox.Show("File Successfully Loaded!");
             }
@@ -202,5 +210,15 @@ namespace Zork.Builder
         //}
 
         private GameViewModel mGameModel;
+
+        private void AddRoomButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RemoveRoomButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

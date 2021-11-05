@@ -8,16 +8,14 @@ namespace Zork.Builder.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string FileName { get; set; }
         public string StartingLocation { get; set; }
         public string WelcomeMessage { get; set; }
-
-        public Room zorkRoom { get; set; }
-
-        ///DO NOT REMOVE GAME GAME////
+        public BindingList<Room> Rooms {get; set;}
         public Game Game { get; set; }
+        public Player Player { get; set; }
+        public World World { get; set; }
 
         //public string RoomNames { get; set; }
-
-        //public HashSet<Room> AllRooms { get; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace Zork.Builder
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -43,8 +43,8 @@ namespace Zork.Builder
             this.World = new System.Windows.Forms.TabPage();
             this.roomsGroupBox = new System.Windows.Forms.GroupBox();
             this.roomsListBox = new System.Windows.Forms.ListBox();
-            this.editorBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.roomsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.defaultBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.AddRoomButton = new System.Windows.Forms.Button();
             this.RemoveRoomButton = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -61,6 +61,7 @@ namespace Zork.Builder
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.startLocationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.StartingLocation = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -68,9 +69,10 @@ namespace Zork.Builder
             this.Game.SuspendLayout();
             this.World.SuspendLayout();
             this.roomsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.editorBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).BeginInit();
             this.NeighborBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.startLocationBindingSource)).BeginInit();
             this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -181,26 +183,25 @@ namespace Zork.Builder
             // 
             // roomsListBox
             // 
-            this.roomsListBox.DataSource = this.editorBindingSource;
-            this.roomsListBox.DisplayMember = "RoomNames";
+            this.roomsListBox.DataSource = this.roomsBindingSource;
+            this.roomsListBox.DisplayMember = "Rooms";
             this.roomsListBox.FormattingEnabled = true;
             this.roomsListBox.Location = new System.Drawing.Point(5, 19);
             this.roomsListBox.Name = "roomsListBox";
             this.roomsListBox.Size = new System.Drawing.Size(176, 225);
             this.roomsListBox.TabIndex = 2;
-            this.roomsListBox.ValueMember = "Rooms";
-            // 
-            // editorBindingSource
-            // 
-            this.editorBindingSource.AllowNew = true;
-            this.editorBindingSource.DataMember = "World";
-            this.editorBindingSource.DataSource = this.roomsBindingSource;
             // 
             // roomsBindingSource
             // 
             this.roomsBindingSource.AllowNew = true;
-            this.roomsBindingSource.DataMember = "Game";
-            this.roomsBindingSource.DataSource = typeof(Zork.Builder.ViewModel.GameViewModel);
+            this.roomsBindingSource.DataMember = "World";
+            this.roomsBindingSource.DataSource = this.defaultBindingSource;
+            // 
+            // defaultBindingSource
+            // 
+            this.defaultBindingSource.AllowNew = true;
+            this.defaultBindingSource.DataMember = "Game";
+            this.defaultBindingSource.DataSource = typeof(Zork.Builder.ViewModel.GameViewModel);
             // 
             // AddRoomButton
             // 
@@ -210,6 +211,7 @@ namespace Zork.Builder
             this.AddRoomButton.TabIndex = 5;
             this.AddRoomButton.Text = "Add";
             this.AddRoomButton.UseVisualStyleBackColor = true;
+            this.AddRoomButton.Click += new System.EventHandler(this.AddRoomButton_Click);
             // 
             // RemoveRoomButton
             // 
@@ -219,6 +221,7 @@ namespace Zork.Builder
             this.RemoveRoomButton.TabIndex = 6;
             this.RemoveRoomButton.Text = "Remove";
             this.RemoveRoomButton.UseVisualStyleBackColor = true;
+            this.RemoveRoomButton.Click += new System.EventHandler(this.RemoveRoomButton_Click);
             // 
             // textBox3
             // 
@@ -348,11 +351,17 @@ namespace Zork.Builder
             // 
             // comboBox1
             // 
+            this.comboBox1.DataSource = this.startLocationBindingSource;
+            this.comboBox1.DisplayMember = "World";
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(11, 25);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(176, 21);
             this.comboBox1.TabIndex = 1;
+            // 
+            // startLocationBindingSource
+            // 
+            this.startLocationBindingSource.DataSource = this.defaultBindingSource;
             // 
             // StartingLocation
             // 
@@ -389,24 +398,27 @@ namespace Zork.Builder
             this.saveFileDialog.RestoreDirectory = true;
             this.saveFileDialog.Title = "Save Game File As";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 370);
+            this.ClientSize = new System.Drawing.Size(546, 379);
             this.Controls.Add(this.tabControl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Menu = this.mainMenu1;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Zork Builder";
             this.Game.ResumeLayout(false);
             this.Game.PerformLayout();
             this.World.ResumeLayout(false);
             this.World.PerformLayout();
             this.roomsGroupBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.editorBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).EndInit();
             this.NeighborBox.ResumeLayout(false);
             this.NeighborBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.startLocationBindingSource)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -452,9 +464,10 @@ namespace Zork.Builder
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.GroupBox roomsGroupBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.BindingSource defaultBindingSource;
         private System.Windows.Forms.BindingSource roomsBindingSource;
-        private System.Windows.Forms.BindingSource editorBindingSource;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.BindingSource startLocationBindingSource;
     }
 }
 
