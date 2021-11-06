@@ -120,13 +120,19 @@ namespace Zork.Builder
 
                 MessageBox.Show("File Successfully Loaded!");
             }
-
+            
             foreach(Room room in GetRoomsList())
             {
                 RoomsListBox.Items.Add(room);
+                StartingLocationDropBox.Items.Add(room);
             }
             RoomsListBox.ValueMember = "Room";
             RoomsListBox.DisplayMember = "Name";
+
+            StartingLocationDropBox.Text = StoredRoot.World.StartingLocation;
+
+            StartingLocationDropBox.ValueMember = "Room";
+            StartingLocationDropBox.DisplayMember = "Name";
         }
 
         private void Save_File(object sender, EventArgs e)
