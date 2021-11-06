@@ -268,7 +268,7 @@ namespace Zork.Builder
             this.NeighborsGroupBox.Location = new System.Drawing.Point(230, 179);
             this.NeighborsGroupBox.Name = "NeighborsGroupBox";
             this.NeighborsGroupBox.Size = new System.Drawing.Size(300, 168);
-            this.NeighborsGroupBox.TabIndex = 4;
+            this.NeighborsGroupBox.TabIndex = 8;
             this.NeighborsGroupBox.TabStop = false;
             this.NeighborsGroupBox.Text = "Neighbors";
             // 
@@ -312,7 +312,7 @@ namespace Zork.Builder
             // NeighborWestLabel
             // 
             this.NeighborWestLabel.AutoSize = true;
-            this.NeighborWestLabel.Location = new System.Drawing.Point(38, 70);
+            this.NeighborWestLabel.Location = new System.Drawing.Point(31, 70);
             this.NeighborWestLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.NeighborWestLabel.Name = "NeighborWestLabel";
             this.NeighborWestLabel.Size = new System.Drawing.Size(32, 13);
@@ -332,7 +332,7 @@ namespace Zork.Builder
             // NeighborNorthLabel
             // 
             this.NeighborNorthLabel.AutoSize = true;
-            this.NeighborNorthLabel.Location = new System.Drawing.Point(134, 16);
+            this.NeighborNorthLabel.Location = new System.Drawing.Point(132, 16);
             this.NeighborNorthLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.NeighborNorthLabel.Name = "NeighborNorthLabel";
             this.NeighborNorthLabel.Size = new System.Drawing.Size(33, 13);
@@ -455,7 +455,6 @@ namespace Zork.Builder
         private System.Windows.Forms.Label NeighborWestLabel;
         private System.Windows.Forms.Label NeighborEastLabel;
         private System.Windows.Forms.Label NeighborNorthLabel;
-        private System.Windows.Forms.ComboBox NeighborNorthDropBox;
         private System.Windows.Forms.ListBox RoomsListBox;
         private System.Windows.Forms.ComboBox StartingLocationDropBox;
         private System.Windows.Forms.Label StartingLocationLabel;
@@ -465,6 +464,7 @@ namespace Zork.Builder
         private System.Windows.Forms.BindingSource defaultBindingSource;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button RoomUpdateButton;
+        private System.Windows.Forms.ComboBox NeighborNorthDropBox;
     }
 }
 
