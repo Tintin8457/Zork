@@ -104,8 +104,6 @@ namespace Zork.Builder
 
                 //Get the whole world from the file
                 StoredRoot = JsonConvert.DeserializeObject<Root>(File.ReadAllText(@CurrentFile));
-
-                MessageBox.Show("File Successfully Loaded!");
             }
 
             ResetWorldLists();
@@ -128,8 +126,6 @@ namespace Zork.Builder
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     CurrentFile = saveFileDialog.FileName;
-
-                    MessageBox.Show(CurrentFile);
                 }
             }
 
@@ -138,6 +134,8 @@ namespace Zork.Builder
 
             //write json to the current file
             File.WriteAllText(CurrentFile, json);
+
+            MessageBox.Show(CurrentFile + " is saved");
         }
 
         private void Save_As_File(object sender, EventArgs e)
@@ -151,7 +149,7 @@ namespace Zork.Builder
             {
                 CurrentFile = saveFileDialog.FileName;
 
-                MessageBox.Show(CurrentFile);
+                MessageBox.Show(CurrentFile + " is saved");
 
                 //convert to json
                 string json = JsonConvert.SerializeObject(StoredRoot, Formatting.Indented);
