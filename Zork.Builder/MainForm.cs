@@ -20,8 +20,6 @@ namespace Zork.Builder
         public Root StoredRoot = null;
         public string CurrentFile = "";
 
-        Stream fileStream;
-
         private GameViewModel ZorkGame 
         { 
             get => mGameModel;
@@ -80,7 +78,7 @@ namespace Zork.Builder
 
             //editorBindingSource.Add(StoredRoot.World.Rooms);
             //Link to binding source in new file
-            roomsBindingSource.DataSource = StoredRoot.World.Rooms;
+            //roomsBindingSource.DataSource = StoredRoot.World.Rooms;
             
 
             MessageBox.Show($"Stored Root: {StoredRoot.World.WelcomeMessage}\n" +
@@ -122,6 +120,13 @@ namespace Zork.Builder
 
                 MessageBox.Show("File Successfully Loaded!");
             }
+
+            foreach(Room room in GetRoomsList())
+            {
+                RoomsListBox.Items.Add(room);
+            }
+            RoomsListBox.ValueMember = "Room";
+            RoomsListBox.DisplayMember = "Name";
         }
 
         private void Save_File(object sender, EventArgs e)
@@ -169,56 +174,31 @@ namespace Zork.Builder
             }
         }
 
-        //private void Save_As_File(object sender, EventArgs e)
-        //{
-        //    SaveFileDialog saveFileDialog = new SaveFileDialog();
-        //    saveFileDialog.Filter = "Json files|*.json|All files|*.*";
-        //    saveFileDialog.ShowDialog();
-
-        //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        if ((fileStream = saveFileDialog.OpenFile()) != null)
-        //        {
-        //            string fileName = saveFileDialog.FileName;
-        //            //FileStream fileReader = (FileStream)saveFileDialog.OpenFile();
-        //            //fileReader.Close();
-
-        //            WriteGameFile(fileName);
-        //            fileStream.Close();
-        //        }
-        //    }
-        //}
-
-        //private void WriteGameFile(string gameFileName)
-        //{
-        //    try
-        //    {
-        //        using (FileStream fileWriter = File.Open(gameFileName + ".json", FileMode.CreateNew))
-        //        using (StreamWriter writeToGameFile = new StreamWriter(fileWriter))
-        //        using (JsonWriter writetoGameContent = new JsonTextWriter(writeToGameFile))
-        //        {
-        //            writetoGameContent.Formatting = Formatting.Indented;
-        //            JsonSerializer serializer = new JsonSerializer();
-        //            //serializer.Serialize(writetoGameContent); -----------this bit will not work because it needs a certain second argument--------------
-        //        }
-        //    }
-
-        //    catch (Exception exception)
-        //    {
-        //        MessageBox.Show("Error: Unable to save file.");
-        //    }
-        //}
-
         private GameViewModel mGameModel;
 
-        private void AddRoomButton_Click(object sender, EventArgs e)
+        private void RoomAddButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void RemoveRoomButton_Click(object sender, EventArgs e)
+        private void RoomRemoveButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
+        {
+            StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
+        }
+
+        private void RoomsListBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private List<Room> GetRoomsList()
+        {
+            return StoredRoot.World.Rooms;
         }
     }
 }

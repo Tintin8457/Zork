@@ -1,0 +1,18 @@
+{
+  "World": {
+    "StartingLocation": "",
+    "WelcomeMessage": "Welcome to Mother Russia!",
+    "Rooms": [
+      {
+        "Name": "Default Room",
+        "Description": "Default Room Description",
+        "Neighbors": {
+          "North": null,
+          "South": null,
+          "West": null,
+          "East": null
+        }
+      }
+    ]
+  }
+}
