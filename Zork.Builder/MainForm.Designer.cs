@@ -217,6 +217,7 @@ namespace Zork.Builder
             this.RoomDescriptionTextBox.Name = "RoomDescriptionTextBox";
             this.RoomDescriptionTextBox.Size = new System.Drawing.Size(330, 100);
             this.RoomDescriptionTextBox.TabIndex = 11;
+            this.RoomDescriptionTextBox.TextChanged += new System.EventHandler(this.RoomDescriptionTextBox_TextChanged);
             // 
             // RoomNameTextBox
             // 
@@ -224,6 +225,7 @@ namespace Zork.Builder
             this.RoomNameTextBox.Name = "RoomNameTextBox";
             this.RoomNameTextBox.Size = new System.Drawing.Size(330, 20);
             this.RoomNameTextBox.TabIndex = 9;
+            this.RoomNameTextBox.TextChanged += new System.EventHandler(this.RoomNameTextBox_TextChanged);
             // 
             // RoomDescriptionLabel
             // 

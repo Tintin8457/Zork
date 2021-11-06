@@ -49,6 +49,7 @@ namespace Zork.Builder
         private void New_File(object sender, EventArgs e)
         {
             //Create a new world in the form, but don't save or write it
+            ResetApp();
 
             StoredRoot = null;
             CurrentFile = "";
@@ -107,6 +108,8 @@ namespace Zork.Builder
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                ResetApp();
+
                 //Get selected file and store it
                 CurrentFile = openFileDialog.FileName;
 
@@ -210,6 +213,22 @@ namespace Zork.Builder
         private void StartingLocationDropBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             StoredRoot.World.StartingLocation = StartingLocationDropBox.Text;
+        }
+
+        private void RoomNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RoomDescriptionTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ResetApp()
+        {
+            RoomsListBox.Items.Clear();
+            StartingLocationDropBox.Items.Clear();
         }
     }
 }
