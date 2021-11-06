@@ -206,5 +206,10 @@ namespace Zork.Builder
         {
             return StoredRoot.World.Rooms;
         }
+
+        private void StartingLocationDropBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            StoredRoot.World.StartingLocation = StartingLocationDropBox.Text;
+        }
     }
 }

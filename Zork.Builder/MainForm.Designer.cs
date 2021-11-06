@@ -59,21 +59,21 @@ namespace Zork.Builder
             this.NeighborNorthLabel = new System.Windows.Forms.Label();
             this.NeighborNorthDropBox = new System.Windows.Forms.ComboBox();
             this.StartingLocationDropBox = new System.Windows.Forms.ComboBox();
-            this.startLocationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.StartingLocationLabel = new System.Windows.Forms.Label();
+            this.startLocationBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.defaultBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.roomsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.TabControl = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.defaultBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.GameTab.SuspendLayout();
             this.WorldTab.SuspendLayout();
             this.RoomsGroupBox.SuspendLayout();
             this.NeighborsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.startLocationBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).BeginInit();
             this.TabControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -344,10 +344,7 @@ namespace Zork.Builder
             this.StartingLocationDropBox.Name = "StartingLocationDropBox";
             this.StartingLocationDropBox.Size = new System.Drawing.Size(176, 21);
             this.StartingLocationDropBox.TabIndex = 1;
-            // 
-            // startLocationBindingSource
-            // 
-            this.startLocationBindingSource.DataSource = this.defaultBindingSource;
+            this.StartingLocationDropBox.SelectedIndexChanged += new System.EventHandler(this.StartingLocationDropBox_SelectedIndexChanged);
             // 
             // StartingLocationLabel
             // 
@@ -357,6 +354,16 @@ namespace Zork.Builder
             this.StartingLocationLabel.Size = new System.Drawing.Size(87, 13);
             this.StartingLocationLabel.TabIndex = 0;
             this.StartingLocationLabel.Text = "Starting Location";
+            // 
+            // startLocationBindingSource
+            // 
+            this.startLocationBindingSource.DataSource = this.defaultBindingSource;
+            // 
+            // defaultBindingSource
+            // 
+            this.defaultBindingSource.AllowNew = true;
+            this.defaultBindingSource.DataMember = "Game";
+            this.defaultBindingSource.DataSource = typeof(Zork.Builder.ViewModel.GameViewModel);
             // 
             // roomsBindingSource
             // 
@@ -391,12 +398,6 @@ namespace Zork.Builder
             this.saveFileDialog.RestoreDirectory = true;
             this.saveFileDialog.Title = "Save Game File As";
             // 
-            // defaultBindingSource
-            // 
-            this.defaultBindingSource.AllowNew = true;
-            this.defaultBindingSource.DataMember = "Game";
-            this.defaultBindingSource.DataSource = typeof(Zork.Builder.ViewModel.GameViewModel);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -418,9 +419,9 @@ namespace Zork.Builder
             this.NeighborsGroupBox.ResumeLayout(false);
             this.NeighborsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.startLocationBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).EndInit();
             this.TabControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
