@@ -77,13 +77,13 @@ namespace Zork.Builder
                 },
             });
 
-            //editorBindingSource.Add(StoredRoot.World.Rooms);
-            //Link to binding source in new file
-            //roomsBindingSource.DataSource = StoredRoot.World.Rooms;
-            
+            RoomsListBox.Items.Clear();
 
-            MessageBox.Show($"Stored Root: {StoredRoot.World.WelcomeMessage}\n" +
-                $"File Name: {CurrentFile};");
+            foreach (Room room in GetRoomsList())
+            {
+                RoomsListBox.Items.Add(room);
+            }
+            RoomsListBox.DisplayMember = "Name";
         }
 
         private void Open_File(object sender, EventArgs e)
@@ -113,23 +113,21 @@ namespace Zork.Builder
                 //Get selected file and store it
                 CurrentFile = openFileDialog.FileName;
 
-                MessageBox.Show(CurrentFile);
+                //MessageBox.Show(CurrentFile);
 
                 //Get the whole world from the file
                 StoredRoot = JsonConvert.DeserializeObject<Root>(File.ReadAllText(@CurrentFile));
 
-                //Link to binding source in existing file
-                roomsBindingSource.DataSource = CurrentFile;
-
                 MessageBox.Show("File Successfully Loaded!");
             }
-            
+
+            RoomsListBox.Items.Clear();
+
             foreach(Room room in GetRoomsList())
             {
                 RoomsListBox.Items.Add(room);
                 StartingLocationDropBox.Items.Add(room);
             }
-            RoomsListBox.ValueMember = "Room";
             RoomsListBox.DisplayMember = "Name";
 
             StartingLocationDropBox.Text = StoredRoot.World.StartingLocation;
@@ -185,15 +183,9 @@ namespace Zork.Builder
 
         private GameViewModel mGameModel;
 
-        private void RoomAddButton_Click(object sender, EventArgs e)
-        {
+        
 
-        }
 
-        private void RoomRemoveButton_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
         {
@@ -202,7 +194,136 @@ namespace Zork.Builder
 
         private void RoomsListBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            try
+            {
+                //Name and Description
+                RoomNameTextBox.Text = (RoomsListBox.SelectedItem as Room).Name;
+                RoomDescriptionTextBox.Text = (RoomsListBox.SelectedItem as Room).Description;
 
+                //North Neighbor
+                NeighborNorthDropBox.Items.Clear();
+                NeighborNorthDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.North;
+                foreach (Room room in GetRoomsList())
+                {
+                    if(room.Name != (RoomsListBox.SelectedItem as Room).Name)
+                        NeighborNorthDropBox.Items.Add(room);
+                }
+                NeighborNorthDropBox.DisplayMember = "Name";
+
+                //South Neighbor
+                NeighborSouthDropBox.Items.Clear();
+                NeighborSouthDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.South;
+                foreach (Room room in GetRoomsList())
+                {
+                    if (room.Name != (RoomsListBox.SelectedItem as Room).Name)
+                        NeighborSouthDropBox.Items.Add(room);
+                }
+                NeighborSouthDropBox.DisplayMember = "Name";
+
+                //West Neighbor
+                NeighborWestDropBox.Items.Clear();
+                NeighborWestDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.West;
+                foreach (Room room in GetRoomsList())
+                {
+                    if (room.Name != (RoomsListBox.SelectedItem as Room).Name)
+                        NeighborWestDropBox.Items.Add(room);
+                }
+                NeighborWestDropBox.DisplayMember = "Name";
+
+                //East Neighbor
+                NeighborEastDropBox.Items.Clear();
+                NeighborEastDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.East;
+                foreach (Room room in GetRoomsList())
+                {
+                    if (room.Name != (RoomsListBox.SelectedItem as Room).Name)
+                        NeighborEastDropBox.Items.Add(room);
+                }
+                NeighborEastDropBox.DisplayMember = "Name";
+            }
+            catch { }
+        }
+
+        private void RoomUpdateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = RoomsListBox.SelectedIndex;
+
+                StoredRoot.World.Rooms[index].Name = RoomNameTextBox.Text;
+                StoredRoot.World.Rooms[index].Description = RoomDescriptionTextBox.Text;
+
+                StoredRoot.World.Rooms[index].Neighbors.North = NeighborNorthDropBox.Text;
+                StoredRoot.World.Rooms[index].Neighbors.South = NeighborSouthDropBox.Text;
+                StoredRoot.World.Rooms[index].Neighbors.West = NeighborWestDropBox.Text;
+                StoredRoot.World.Rooms[index].Neighbors.East = NeighborEastDropBox.Text;
+
+                RoomsListBox.Items.RemoveAt(index);
+                RoomsListBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
+            }
+            catch { }
+        }
+
+        private void RoomAddButton_Click(object sender, EventArgs e)
+        {
+            StoredRoot.World.Rooms.Add(new Room()
+            {
+                Name = "New Room",
+                Description = "New Room Description",
+                Neighbors = new Neighbors()
+                {
+                    North = null,
+                    South = null,
+                    West = null,
+                    East = null,
+                },
+            });
+
+            RoomsListBox.Items.Add(StoredRoot.World.Rooms[StoredRoot.World.Rooms.Count - 1]);
+        }
+
+        private void RoomRemoveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = RoomsListBox.SelectedIndex;
+
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to remove this room?", "Remove Room", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    //Find and remove all links to current room
+                    PurgeDeadNeighborsByName((RoomsListBox.SelectedItem as Room).Name);
+
+                    //Clear Room Text
+                    RoomNameTextBox.Text = null;
+                    RoomDescriptionTextBox.Text = null;
+
+                    //Clear North Neighbor DropBox
+                    NeighborNorthDropBox.Text = null;
+                    NeighborNorthDropBox.Items.Clear();
+
+                    //Clear South Neighbor DropBox
+                    NeighborSouthDropBox.Text = null;
+                    NeighborSouthDropBox.Items.Clear();
+
+                    //Clear West Neighbor DropBox
+                    NeighborWestDropBox.Text = null;
+                    NeighborWestDropBox.Items.Clear();
+
+                    //Clear East Neighbor DropBox
+                    NeighborEastDropBox.Text = null;
+                    NeighborEastDropBox.Items.Clear();
+
+                    //Update Lists
+                    StoredRoot.World.Rooms.RemoveAt(index);
+                    RoomsListBox.Items.RemoveAt(index);
+                    MessageBox.Show("Room Removed!");
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    MessageBox.Show("Room Unchanged!");
+                }
+            }
+            catch { }
         }
 
         private List<Room> GetRoomsList()
@@ -229,6 +350,43 @@ namespace Zork.Builder
         {
             RoomsListBox.Items.Clear();
             StartingLocationDropBox.Items.Clear();
+        private bool RoomExistsByName(string name)
+        {
+            bool exists = false;
+            foreach(Room room in GetRoomsList())
+            {
+                if(room.Name == name)
+                {
+                    exists = true;
+                    return exists;
+                }
+            }
+
+            return exists;
+        }
+
+        private void PurgeDeadNeighborsByName(string name)
+        {
+            if (StartingLocationDropBox.Text == name)
+            {
+                StoredRoot.World.StartingLocation = null;
+                StartingLocationDropBox.Text = null;
+            }
+
+            foreach (Room room in GetRoomsList())
+            {
+                if (room.Neighbors.North == name)
+                    room.Neighbors.North = null;
+
+                if (room.Neighbors.South == name)
+                    room.Neighbors.South = null;
+
+                if (room.Neighbors.West == name)
+                    room.Neighbors.West = null;
+
+                if (room.Neighbors.East == name)
+                    room.Neighbors.East = null;
+            }
         }
     }
 }
