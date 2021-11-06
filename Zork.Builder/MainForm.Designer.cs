@@ -43,7 +43,6 @@ namespace Zork.Builder
             this.WorldTab = new System.Windows.Forms.TabPage();
             this.RoomsGroupBox = new System.Windows.Forms.GroupBox();
             this.RoomsListBox = new System.Windows.Forms.ListBox();
-            this.roomsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.RoomAddButton = new System.Windows.Forms.Button();
             this.RoomRemoveButton = new System.Windows.Forms.Button();
             this.RoomDescriptionTextBox = new System.Windows.Forms.TextBox();
@@ -60,8 +59,9 @@ namespace Zork.Builder
             this.NeighborNorthLabel = new System.Windows.Forms.Label();
             this.NeighborNorthDropBox = new System.Windows.Forms.ComboBox();
             this.StartingLocationDropBox = new System.Windows.Forms.ComboBox();
-            this.startLocationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.StartingLocationLabel = new System.Windows.Forms.Label();
+            this.roomsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.startLocationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.TabControl = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -69,8 +69,8 @@ namespace Zork.Builder
             this.GameTab.SuspendLayout();
             this.WorldTab.SuspendLayout();
             this.RoomsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).BeginInit();
             this.NeighborsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.startLocationBindingSource)).BeginInit();
             this.TabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).BeginInit();
@@ -189,13 +189,6 @@ namespace Zork.Builder
             this.RoomsListBox.Name = "RoomsListBox";
             this.RoomsListBox.Size = new System.Drawing.Size(176, 225);
             this.RoomsListBox.TabIndex = 2;
-            this.RoomsListBox.SelectedValueChanged += new System.EventHandler(this.RoomsListBox_SelectedItemChanged);
-            // 
-            // roomsBindingSource
-            // 
-            this.roomsBindingSource.AllowNew = true;
-            this.roomsBindingSource.DataMember = "World";
-            this.roomsBindingSource.DataSource = this.defaultBindingSource;
             // 
             // RoomAddButton
             // 
@@ -351,10 +344,6 @@ namespace Zork.Builder
             this.StartingLocationDropBox.Size = new System.Drawing.Size(176, 21);
             this.StartingLocationDropBox.TabIndex = 1;
             // 
-            // startLocationBindingSource
-            // 
-            this.startLocationBindingSource.DataSource = this.defaultBindingSource;
-            // 
             // StartingLocationLabel
             // 
             this.StartingLocationLabel.AutoSize = true;
@@ -363,6 +352,16 @@ namespace Zork.Builder
             this.StartingLocationLabel.Size = new System.Drawing.Size(87, 13);
             this.StartingLocationLabel.TabIndex = 0;
             this.StartingLocationLabel.Text = "Starting Location";
+            // 
+            // roomsBindingSource
+            // 
+            this.roomsBindingSource.AllowNew = true;
+            this.roomsBindingSource.DataMember = "World";
+            this.roomsBindingSource.DataSource = this.defaultBindingSource;
+            // 
+            // startLocationBindingSource
+            // 
+            this.startLocationBindingSource.DataSource = this.defaultBindingSource;
             // 
             // TabControl
             // 
@@ -400,7 +399,7 @@ namespace Zork.Builder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 337);
+            this.ClientSize = new System.Drawing.Size(546, 380);
             this.Controls.Add(this.TabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -412,9 +411,9 @@ namespace Zork.Builder
             this.WorldTab.ResumeLayout(false);
             this.WorldTab.PerformLayout();
             this.RoomsGroupBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).EndInit();
             this.NeighborsGroupBox.ResumeLayout(false);
             this.NeighborsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.startLocationBindingSource)).EndInit();
             this.TabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).EndInit();
