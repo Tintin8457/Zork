@@ -40,17 +40,9 @@ namespace Zork.Builder
             ZorkGame = new GameViewModel();
         }
 
-        private void Game_Click(object sender, EventArgs e)
-        {
-            //Triggers whenever you click the screen while in the game tab
-            //MessageBox.Show("Clicked Game Tab");
-        }
-
         private void New_File(object sender, EventArgs e)
         {
             //Create a new world in the form, but don't save or write it
-            ResetApp();
-
             StoredRoot = null;
             CurrentFile = "";
 
@@ -58,7 +50,7 @@ namespace Zork.Builder
             {
                 World = new World()
                 {
-                    StartingLocation = "",
+                    StartingLocation = null,
                     WelcomeMessage = "Welcome to Zork!",
                     Rooms = new List<Room>(),
                 },
@@ -77,13 +69,12 @@ namespace Zork.Builder
                 },
             });
 
-            RoomsListBox.Items.Clear();
+            ResetWorldLists();
 
-            foreach (Room room in GetRoomsList())
-            {
-                RoomsListBox.Items.Add(room);
-            }
-            RoomsListBox.DisplayMember = "Name";
+            StartingLocationDropBox.Text = StoredRoot.World.StartingLocation = StoredRoot.World.Rooms[0].Name;
+
+            //Clear the Form
+            ClearRoomForm();
         }
 
         private void Open_File(object sender, EventArgs e)
@@ -108,12 +99,8 @@ namespace Zork.Builder
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ResetApp();
-
                 //Get selected file and store it
                 CurrentFile = openFileDialog.FileName;
-
-                //MessageBox.Show(CurrentFile);
 
                 //Get the whole world from the file
                 StoredRoot = JsonConvert.DeserializeObject<Root>(File.ReadAllText(@CurrentFile));
@@ -121,19 +108,12 @@ namespace Zork.Builder
                 MessageBox.Show("File Successfully Loaded!");
             }
 
-            RoomsListBox.Items.Clear();
-
-            foreach(Room room in GetRoomsList())
-            {
-                RoomsListBox.Items.Add(room);
-                StartingLocationDropBox.Items.Add(room);
-            }
-            RoomsListBox.DisplayMember = "Name";
+            ResetWorldLists();
 
             StartingLocationDropBox.Text = StoredRoot.World.StartingLocation;
 
-            StartingLocationDropBox.ValueMember = "Room";
-            StartingLocationDropBox.DisplayMember = "Name";
+            //Clear the Form
+            ClearRoomForm();
         }
 
         private void Save_File(object sender, EventArgs e)
@@ -183,13 +163,18 @@ namespace Zork.Builder
 
         private GameViewModel mGameModel;
 
-        
-
 
 
         private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
         {
             StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
+        }
+
+
+
+        private void StartingLocationDropBox_Changed(object sender, EventArgs e)
+        {
+            StoredRoot.World.StartingLocation = StartingLocationDropBox.Text;
         }
 
         private void RoomsListBox_SelectedValueChanged(object sender, EventArgs e)
@@ -249,6 +234,8 @@ namespace Zork.Builder
             {
                 int index = RoomsListBox.SelectedIndex;
 
+                string oldName = StoredRoot.World.Rooms[index].Name;
+
                 StoredRoot.World.Rooms[index].Name = RoomNameTextBox.Text;
                 StoredRoot.World.Rooms[index].Description = RoomDescriptionTextBox.Text;
 
@@ -259,6 +246,11 @@ namespace Zork.Builder
 
                 RoomsListBox.Items.RemoveAt(index);
                 RoomsListBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
+
+                StartingLocationDropBox.Items.RemoveAt(index);
+                StartingLocationDropBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
+
+                UpdateNeighborsByName(oldName, StoredRoot.World.Rooms[index].Name);
             }
             catch { }
         }
@@ -279,6 +271,7 @@ namespace Zork.Builder
             });
 
             RoomsListBox.Items.Add(StoredRoot.World.Rooms[StoredRoot.World.Rooms.Count - 1]);
+            StartingLocationDropBox.Items.Add(StoredRoot.World.Rooms[StoredRoot.World.Rooms.Count - 1]);
         }
 
         private void RoomRemoveButton_Click(object sender, EventArgs e)
@@ -291,31 +284,15 @@ namespace Zork.Builder
                 if (dialogResult == DialogResult.Yes)
                 {
                     //Find and remove all links to current room
-                    PurgeDeadNeighborsByName((RoomsListBox.SelectedItem as Room).Name);
+                    PurgeNeighborsByName((RoomsListBox.SelectedItem as Room).Name);
 
-                    //Clear Room Text
-                    RoomNameTextBox.Text = null;
-                    RoomDescriptionTextBox.Text = null;
-
-                    //Clear North Neighbor DropBox
-                    NeighborNorthDropBox.Text = null;
-                    NeighborNorthDropBox.Items.Clear();
-
-                    //Clear South Neighbor DropBox
-                    NeighborSouthDropBox.Text = null;
-                    NeighborSouthDropBox.Items.Clear();
-
-                    //Clear West Neighbor DropBox
-                    NeighborWestDropBox.Text = null;
-                    NeighborWestDropBox.Items.Clear();
-
-                    //Clear East Neighbor DropBox
-                    NeighborEastDropBox.Text = null;
-                    NeighborEastDropBox.Items.Clear();
+                    //Clear the Form
+                    ClearRoomForm();
 
                     //Update Lists
                     StoredRoot.World.Rooms.RemoveAt(index);
                     RoomsListBox.Items.RemoveAt(index);
+                    StartingLocationDropBox.Items.RemoveAt(index);
                     MessageBox.Show("Room Removed!");
                 }
                 else if (dialogResult == DialogResult.No)
@@ -326,46 +303,15 @@ namespace Zork.Builder
             catch { }
         }
 
+        
+
+
         private List<Room> GetRoomsList()
         {
             return StoredRoot.World.Rooms;
         }
 
-        private void StartingLocationDropBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            StoredRoot.World.StartingLocation = StartingLocationDropBox.Text;
-        }
-
-        private void RoomNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void RoomDescriptionTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ResetApp()
-        {
-            RoomsListBox.Items.Clear();
-            StartingLocationDropBox.Items.Clear();
-        private bool RoomExistsByName(string name)
-        {
-            bool exists = false;
-            foreach(Room room in GetRoomsList())
-            {
-                if(room.Name == name)
-                {
-                    exists = true;
-                    return exists;
-                }
-            }
-
-            return exists;
-        }
-
-        private void PurgeDeadNeighborsByName(string name)
+        private void PurgeNeighborsByName(string name)
         {
             if (StartingLocationDropBox.Text == name)
             {
@@ -387,6 +333,70 @@ namespace Zork.Builder
                 if (room.Neighbors.East == name)
                     room.Neighbors.East = null;
             }
+        }
+
+        private void UpdateNeighborsByName(string oldName, string newName)
+        {
+            if(oldName != newName)
+            {
+                if (StartingLocationDropBox.Text == oldName)
+                {
+                    StoredRoot.World.StartingLocation = newName;
+                    StartingLocationDropBox.Text = newName;
+                }
+
+                foreach (Room room in GetRoomsList())
+                {
+                    if (room.Neighbors.North == oldName)
+                        room.Neighbors.North = newName;
+
+                    if (room.Neighbors.South == oldName)
+                        room.Neighbors.South = newName;
+
+                    if (room.Neighbors.West == oldName)
+                        room.Neighbors.West = newName;
+
+                    if (room.Neighbors.East == oldName)
+                        room.Neighbors.East = newName;
+                }
+            }
+        }
+
+        private void ResetWorldLists()
+        {
+            RoomsListBox.Items.Clear();
+            StartingLocationDropBox.Items.Clear();
+
+            foreach (Room room in GetRoomsList())
+            {
+                RoomsListBox.Items.Add(room);
+                StartingLocationDropBox.Items.Add(room);
+            }
+            RoomsListBox.DisplayMember = "Name";
+            StartingLocationDropBox.DisplayMember = "Name";
+        }
+
+        private void ClearRoomForm()
+        {
+            //Clear Room Text
+            RoomNameTextBox.Text = null;
+            RoomDescriptionTextBox.Text = null;
+
+            //Clear North Neighbor DropBox
+            NeighborNorthDropBox.Text = null;
+            NeighborNorthDropBox.Items.Clear();
+
+            //Clear South Neighbor DropBox
+            NeighborSouthDropBox.Text = null;
+            NeighborSouthDropBox.Items.Clear();
+
+            //Clear West Neighbor DropBox
+            NeighborWestDropBox.Text = null;
+            NeighborWestDropBox.Items.Clear();
+
+            //Clear East Neighbor DropBox
+            NeighborEastDropBox.Text = null;
+            NeighborEastDropBox.Items.Clear();
         }
     }
 }
