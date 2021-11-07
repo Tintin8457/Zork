@@ -138,7 +138,7 @@ namespace Zork.Builder
             // 
             this.WelcomeMessageTextBox.Location = new System.Drawing.Point(10, 20);
             this.WelcomeMessageTextBox.Name = "WelcomeMessageTextBox";
-            this.WelcomeMessageTextBox.Size = new System.Drawing.Size(100, 20);
+            this.WelcomeMessageTextBox.Size = new System.Drawing.Size(273, 20);
             this.WelcomeMessageTextBox.TabIndex = 1;
             this.WelcomeMessageTextBox.Text = "Welcome to Zork!";
             this.WelcomeMessageTextBox.TextChanged += new System.EventHandler(this.WelcomeMessageTextBox_Changed);
@@ -354,7 +354,6 @@ namespace Zork.Builder
             // 
             // StartingLocationDropBox
             // 
-            this.StartingLocationDropBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StartingLocationDropBox.FormattingEnabled = true;
             this.StartingLocationDropBox.Location = new System.Drawing.Point(6, 25);
             this.StartingLocationDropBox.MaxDropDownItems = 100;

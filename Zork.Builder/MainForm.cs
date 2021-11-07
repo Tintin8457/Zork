@@ -73,6 +73,8 @@ namespace Zork.Builder
 
             StartingLocationDropBox.Text = StoredRoot.World.StartingLocation = StoredRoot.World.Rooms[0].Name;
 
+            WelcomeMessageTextBox.Text = StoredRoot.World.WelcomeMessage;
+
             //Clear the Form
             ClearRoomForm();
         }
@@ -109,6 +111,8 @@ namespace Zork.Builder
             ResetWorldLists();
 
             StartingLocationDropBox.Text = StoredRoot.World.StartingLocation;
+
+            WelcomeMessageTextBox.Text = StoredRoot.World.WelcomeMessage;
 
             //Clear the Form
             ClearRoomForm();
@@ -165,7 +169,11 @@ namespace Zork.Builder
 
         private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
         {
-            StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
+            if (StoredRoot != null)
+            {
+                StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
+                MessageBox.Show($"New Message: {StoredRoot.World.WelcomeMessage}");
+            }
         }
 
 
@@ -228,29 +236,32 @@ namespace Zork.Builder
 
         private void RoomUpdateButton_Click(object sender, EventArgs e)
         {
-            try
+            if(RoomsListBox.SelectedItem != null)
             {
-                int index = RoomsListBox.SelectedIndex;
+                try
+                {
+                    int index = RoomsListBox.SelectedIndex;
 
-                string oldName = StoredRoot.World.Rooms[index].Name;
+                    string oldName = StoredRoot.World.Rooms[index].Name;
 
-                StoredRoot.World.Rooms[index].Name = RoomNameTextBox.Text;
-                StoredRoot.World.Rooms[index].Description = RoomDescriptionTextBox.Text;
+                    StoredRoot.World.Rooms[index].Name = RoomNameTextBox.Text;
+                    StoredRoot.World.Rooms[index].Description = RoomDescriptionTextBox.Text;
 
-                StoredRoot.World.Rooms[index].Neighbors.North = NeighborNorthDropBox.Text;
-                StoredRoot.World.Rooms[index].Neighbors.South = NeighborSouthDropBox.Text;
-                StoredRoot.World.Rooms[index].Neighbors.West = NeighborWestDropBox.Text;
-                StoredRoot.World.Rooms[index].Neighbors.East = NeighborEastDropBox.Text;
+                    StoredRoot.World.Rooms[index].Neighbors.North = NeighborNorthDropBox.Text;
+                    StoredRoot.World.Rooms[index].Neighbors.South = NeighborSouthDropBox.Text;
+                    StoredRoot.World.Rooms[index].Neighbors.West = NeighborWestDropBox.Text;
+                    StoredRoot.World.Rooms[index].Neighbors.East = NeighborEastDropBox.Text;
 
-                RoomsListBox.Items.RemoveAt(index);
-                RoomsListBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
+                    RoomsListBox.Items.RemoveAt(index);
+                    RoomsListBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
 
-                StartingLocationDropBox.Items.RemoveAt(index);
-                StartingLocationDropBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
+                    StartingLocationDropBox.Items.RemoveAt(index);
+                    StartingLocationDropBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
 
-                UpdateNeighborsByName(oldName, StoredRoot.World.Rooms[index].Name);
+                    UpdateNeighborsByName(oldName, StoredRoot.World.Rooms[index].Name);
+                }
+                catch { }
             }
-            catch { }
         }
 
         private void RoomAddButton_Click(object sender, EventArgs e)
@@ -274,31 +285,34 @@ namespace Zork.Builder
 
         private void RoomRemoveButton_Click(object sender, EventArgs e)
         {
-            try
+            if (RoomsListBox.SelectedItem != null)
             {
-                int index = RoomsListBox.SelectedIndex;
-
-                DialogResult dialogResult = MessageBox.Show("Are you sure you want to remove this room?", "Remove Room", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                try
                 {
-                    //Find and remove all links to current room
-                    PurgeNeighborsByName((RoomsListBox.SelectedItem as Room).Name);
+                    int index = RoomsListBox.SelectedIndex;
 
-                    //Clear the Form
-                    ClearRoomForm();
+                    DialogResult dialogResult = MessageBox.Show("Are you sure you want to remove this room?", "Remove Room", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        //Find and remove all links to current room
+                        PurgeNeighborsByName((RoomsListBox.SelectedItem as Room).Name);
 
-                    //Update Lists
-                    StoredRoot.World.Rooms.RemoveAt(index);
-                    RoomsListBox.Items.RemoveAt(index);
-                    StartingLocationDropBox.Items.RemoveAt(index);
-                    MessageBox.Show("Room Removed!");
+                        //Clear the Form
+                        ClearRoomForm();
+
+                        //Update Lists
+                        StoredRoot.World.Rooms.RemoveAt(index);
+                        RoomsListBox.Items.RemoveAt(index);
+                        StartingLocationDropBox.Items.RemoveAt(index);
+                        MessageBox.Show("Room Removed!");
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        MessageBox.Show("Room Unchanged!");
+                    }
                 }
-                else if (dialogResult == DialogResult.No)
-                {
-                    MessageBox.Show("Room Unchanged!");
-                }
+                catch { }
             }
-            catch { }
         }
 
         
@@ -395,10 +409,6 @@ namespace Zork.Builder
             //Clear East Neighbor DropBox
             NeighborEastDropBox.Text = null;
             NeighborEastDropBox.Items.Clear();
-        }
-        private void NorthNeighbor_TextUpdate(object sender, EventArgs e)
-        {
-
         }
     }
 }
