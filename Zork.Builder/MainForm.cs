@@ -396,5 +396,9 @@ namespace Zork.Builder
             NeighborEastDropBox.Text = null;
             NeighborEastDropBox.Items.Clear();
         }
+        private void NorthNeighbor_TextUpdate(object sender, EventArgs e)
+        {
+
+        }
     }
 }

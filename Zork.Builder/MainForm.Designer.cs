@@ -277,6 +277,7 @@ namespace Zork.Builder
             this.NeighborSouthDropBox.FormattingEnabled = true;
             this.NeighborSouthDropBox.Location = new System.Drawing.Point(100, 138);
             this.NeighborSouthDropBox.Margin = new System.Windows.Forms.Padding(1);
+            this.NeighborSouthDropBox.MaxDropDownItems = 100;
             this.NeighborSouthDropBox.Name = "NeighborSouthDropBox";
             this.NeighborSouthDropBox.Size = new System.Drawing.Size(96, 21);
             this.NeighborSouthDropBox.TabIndex = 10;
@@ -286,6 +287,7 @@ namespace Zork.Builder
             this.NeighborWestDropBox.FormattingEnabled = true;
             this.NeighborWestDropBox.Location = new System.Drawing.Point(4, 84);
             this.NeighborWestDropBox.Margin = new System.Windows.Forms.Padding(1);
+            this.NeighborWestDropBox.MaxDropDownItems = 100;
             this.NeighborWestDropBox.Name = "NeighborWestDropBox";
             this.NeighborWestDropBox.Size = new System.Drawing.Size(96, 21);
             this.NeighborWestDropBox.TabIndex = 11;
@@ -295,6 +297,7 @@ namespace Zork.Builder
             this.NeighborEastDropBox.FormattingEnabled = true;
             this.NeighborEastDropBox.Location = new System.Drawing.Point(196, 84);
             this.NeighborEastDropBox.Margin = new System.Windows.Forms.Padding(1);
+            this.NeighborEastDropBox.MaxDropDownItems = 100;
             this.NeighborEastDropBox.Name = "NeighborEastDropBox";
             this.NeighborEastDropBox.Size = new System.Drawing.Size(96, 21);
             this.NeighborEastDropBox.TabIndex = 9;
@@ -344,12 +347,14 @@ namespace Zork.Builder
             this.NeighborNorthDropBox.FormattingEnabled = true;
             this.NeighborNorthDropBox.Location = new System.Drawing.Point(100, 30);
             this.NeighborNorthDropBox.Margin = new System.Windows.Forms.Padding(1);
+            this.NeighborNorthDropBox.MaxDropDownItems = 100;
             this.NeighborNorthDropBox.Name = "NeighborNorthDropBox";
             this.NeighborNorthDropBox.Size = new System.Drawing.Size(96, 21);
             this.NeighborNorthDropBox.TabIndex = 8;
             // 
             // StartingLocationDropBox
             // 
+            this.StartingLocationDropBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StartingLocationDropBox.FormattingEnabled = true;
             this.StartingLocationDropBox.Location = new System.Drawing.Point(6, 25);
             this.StartingLocationDropBox.MaxDropDownItems = 100;
