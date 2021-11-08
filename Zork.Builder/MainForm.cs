@@ -165,11 +165,6 @@ namespace Zork.Builder
 
         private GameViewModel mGameModel;
 
-        private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
-        {
-
-        }
-
         private void StartingLocationDropBox_Changed(object sender, EventArgs e)
         {
             StoredRoot.World.StartingLocation = StartingLocationDropBox.Text;
@@ -422,6 +417,11 @@ namespace Zork.Builder
                     NeighborEastDropBox.Items.Add(room);
             }
             NeighborEastDropBox.DisplayMember = "Name";
+        }
+
+        private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
+        {
+            StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
         }
     }
 }
