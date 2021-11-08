@@ -141,7 +141,6 @@ namespace Zork.Builder
             this.WelcomeMessageTextBox.Size = new System.Drawing.Size(273, 20);
             this.WelcomeMessageTextBox.TabIndex = 1;
             this.WelcomeMessageTextBox.Text = "Welcome to Zork!";
-            this.WelcomeMessageTextBox.TextChanged += new System.EventHandler(this.WelcomeMessageTextBox_Changed);
             // 
             // WelcomeMessageLabel
             // 

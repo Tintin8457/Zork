@@ -167,11 +167,7 @@ namespace Zork.Builder
 
         private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
         {
-            if (StoredRoot != null)
-            {
-                StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
-                MessageBox.Show($"New Message: {StoredRoot.World.WelcomeMessage}");
-            }
+
         }
 
         private void StartingLocationDropBox_Changed(object sender, EventArgs e)
@@ -187,50 +183,15 @@ namespace Zork.Builder
                 RoomNameTextBox.Text = (RoomsListBox.SelectedItem as Room).Name;
                 RoomDescriptionTextBox.Text = (RoomsListBox.SelectedItem as Room).Description;
 
-                //North Neighbor
-                NeighborNorthDropBox.Items.Clear();
-                NeighborNorthDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.North;
-                foreach (Room room in GetRoomsList())
-                {
-                    if(room.Name != (RoomsListBox.SelectedItem as Room).Name)
-                        NeighborNorthDropBox.Items.Add(room);
-                }
-                NeighborNorthDropBox.DisplayMember = "Name";
-
-                //South Neighbor
-                NeighborSouthDropBox.Items.Clear();
-                NeighborSouthDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.South;
-                foreach (Room room in GetRoomsList())
-                {
-                    if (room.Name != (RoomsListBox.SelectedItem as Room).Name)
-                        NeighborSouthDropBox.Items.Add(room);
-                }
-                NeighborSouthDropBox.DisplayMember = "Name";
-
-                //West Neighbor
-                NeighborWestDropBox.Items.Clear();
-                NeighborWestDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.West;
-                foreach (Room room in GetRoomsList())
-                {
-                    if (room.Name != (RoomsListBox.SelectedItem as Room).Name)
-                        NeighborWestDropBox.Items.Add(room);
-                }
-                NeighborWestDropBox.DisplayMember = "Name";
-
-                //East Neighbor
-                NeighborEastDropBox.Items.Clear();
-                NeighborEastDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.East;
-                foreach (Room room in GetRoomsList())
-                {
-                    if (room.Name != (RoomsListBox.SelectedItem as Room).Name)
-                        NeighborEastDropBox.Items.Add(room);
-                }
-                NeighborEastDropBox.DisplayMember = "Name";
+                UpdateNeighborDropDownBoxes((RoomsListBox.SelectedItem as Room).Neighbors.North, 
+                                            (RoomsListBox.SelectedItem as Room).Neighbors.South, 
+                                            (RoomsListBox.SelectedItem as Room).Neighbors.West, 
+                                            (RoomsListBox.SelectedItem as Room).Neighbors.East);
             }
 
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 
@@ -261,9 +222,9 @@ namespace Zork.Builder
                     UpdateNeighborsByName(oldName, StoredRoot.World.Rooms[index].Name);
                 }
 
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("No room selected!");
                 }
             }
         }
@@ -317,12 +278,14 @@ namespace Zork.Builder
                     }
                 }
 
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("No room selected!");
                 }
             }
         }
+
+        
 
         private List<Room> GetRoomsList()
         {
@@ -416,6 +379,49 @@ namespace Zork.Builder
             //Clear East Neighbor DropBox
             NeighborEastDropBox.Text = null;
             NeighborEastDropBox.Items.Clear();
+        }
+
+        private void UpdateNeighborDropDownBoxes(string north, string south, string west, string east)
+        {
+            //North Neighbor
+            NeighborNorthDropBox.Items.Clear();
+            NeighborNorthDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.North;
+            foreach (Room room in GetRoomsList())
+            {
+                if (room.Name != (RoomsListBox.SelectedItem as Room).Name && room.Name != north && room.Name != south && room.Name != west && room.Name != east)
+                    NeighborNorthDropBox.Items.Add(room);
+            }
+            NeighborNorthDropBox.DisplayMember = "Name";
+
+            //South Neighbor
+            NeighborSouthDropBox.Items.Clear();
+            NeighborSouthDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.South;
+            foreach (Room room in GetRoomsList())
+            {
+                if (room.Name != (RoomsListBox.SelectedItem as Room).Name && room.Name != north && room.Name != south && room.Name != west && room.Name != east)
+                    NeighborSouthDropBox.Items.Add(room);
+            }
+            NeighborSouthDropBox.DisplayMember = "Name";
+
+            //West Neighbor
+            NeighborWestDropBox.Items.Clear();
+            NeighborWestDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.West;
+            foreach (Room room in GetRoomsList())
+            {
+                if (room.Name != (RoomsListBox.SelectedItem as Room).Name && room.Name != north && room.Name != south && room.Name != west && room.Name != east)
+                    NeighborWestDropBox.Items.Add(room);
+            }
+            NeighborWestDropBox.DisplayMember = "Name";
+
+            //East Neighbor
+            NeighborEastDropBox.Items.Clear();
+            NeighborEastDropBox.Text = (RoomsListBox.SelectedItem as Room).Neighbors.East;
+            foreach (Room room in GetRoomsList())
+            {
+                if (room.Name != (RoomsListBox.SelectedItem as Room).Name && room.Name != north && room.Name != south && room.Name != west && room.Name != east)
+                    NeighborEastDropBox.Items.Add(room);
+            }
+            NeighborEastDropBox.DisplayMember = "Name";
         }
     }
 }
