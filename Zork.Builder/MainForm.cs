@@ -165,8 +165,6 @@ namespace Zork.Builder
 
         private GameViewModel mGameModel;
 
-
-
         private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
         {
             if (StoredRoot != null)
@@ -175,8 +173,6 @@ namespace Zork.Builder
                 MessageBox.Show($"New Message: {StoredRoot.World.WelcomeMessage}");
             }
         }
-
-
 
         private void StartingLocationDropBox_Changed(object sender, EventArgs e)
         {
@@ -231,7 +227,11 @@ namespace Zork.Builder
                 }
                 NeighborEastDropBox.DisplayMember = "Name";
             }
-            catch { }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void RoomUpdateButton_Click(object sender, EventArgs e)
@@ -260,7 +260,11 @@ namespace Zork.Builder
 
                     UpdateNeighborsByName(oldName, StoredRoot.World.Rooms[index].Name);
                 }
-                catch { }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -306,17 +310,19 @@ namespace Zork.Builder
                         StartingLocationDropBox.Items.RemoveAt(index);
                         MessageBox.Show("Room Removed!");
                     }
+
                     else if (dialogResult == DialogResult.No)
                     {
                         MessageBox.Show("Room Unchanged!");
                     }
                 }
-                catch { }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
-
-        
-
 
         private List<Room> GetRoomsList()
         {
@@ -384,6 +390,7 @@ namespace Zork.Builder
                 RoomsListBox.Items.Add(room);
                 StartingLocationDropBox.Items.Add(room);
             }
+
             RoomsListBox.DisplayMember = "Name";
             StartingLocationDropBox.DisplayMember = "Name";
         }

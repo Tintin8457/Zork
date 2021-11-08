@@ -1,0 +1,48 @@
+{
+  "World": {
+    "StartingLocation": "bully",
+    "WelcomeMessage": "How r ya?",
+    "Rooms": [
+      {
+        "Name": "Dem",
+        "Description": "Defaulscription",
+        "Neighbors": {
+          "North": "",
+          "South": "pizza",
+          "West": "",
+          "East": ""
+        }
+      },
+      {
+        "Name": "bully",
+        "Description": "jazz",
+        "Neighbors": {
+          "North": "fan",
+          "South": "",
+          "West": "",
+          "East": ""
+        }
+      },
+      {
+        "Name": "pizza",
+        "Description": "Nbotion",
+        "Neighbors": {
+          "North": "",
+          "South": "",
+          "West": "bully",
+          "East": ""
+        }
+      },
+      {
+        "Name": "fan",
+        "Description": "whteber",
+        "Neighbors": {
+          "North": "",
+          "South": "",
+          "West": "",
+          "East": "Dem"
+        }
+      }
+    ]
+  }
+}
