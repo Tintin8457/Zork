@@ -10,6 +10,8 @@ namespace Zork
         public event PropertyChangedEventHandler PropertyChanged;
         public World World { get; set; }
 
+        public IOutputService Output { get; set; }
+
         [JsonIgnore]
         public Player Player { get; private set; }
 
@@ -32,15 +34,15 @@ namespace Zork
 
             while (IsRunning)
             {
-                Console.WriteLine(Player.Location);
+                Output.WriteLine(Player.Location);
 
                 if (previousRoom != Player.Location)
                 {
-                    Console.WriteLine(Player.Location.Description);
+                    Output.WriteLine(Player.Location.Description);
                     previousRoom = Player.Location;
                 }
 
-                Console.Write("\n> ");
+                Output.WriteLine("\n> ");
                 Commands command = ToCommand(Console.ReadLine().Trim());
 
                 switch (command)
@@ -50,12 +52,12 @@ namespace Zork
                         break;
 
                     case Commands.LOOK:
-                        Console.WriteLine(Player.Location.Description);
+                        Output.WriteLine(Player.Location.Description);
                         playerMoves++;
                         break;
 
                     case Commands.SCORE:
-                        Console.WriteLine("Your score would be " + playerScore + " in " + playerMoves + " moves.");
+                        Output.WriteLine("Your score would be " + playerScore + " in " + playerMoves + " moves.");
                         playerMoves++;
                         break;
 
@@ -72,23 +74,24 @@ namespace Zork
 
                         if (Player.Move(direction) == false)
                         {
-                            Console.WriteLine("The way is shut!");
+                            Output.WriteLine("The way is shut!");
                             playerMoves++;
                         }
 
                         break;
 
                     default:
-                        Console.WriteLine("Unknown Command.");
+                        Output.WriteLine("Unknown Command.");
                         break;
                 }
             }
         }
 
-        public static Game Load(string filename)
+        public static Game Load(string filename, IOutputService output)
         {
             Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(filename));
             game.Player = game.World.SpawnPlayer();
+            game.Output = output;
             
             return game;
         }
