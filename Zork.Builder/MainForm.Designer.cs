@@ -30,6 +30,7 @@ namespace Zork.Builder
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.GroupBox WelcomeMessageContainer;
             this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
             this.MenuFile = new System.Windows.Forms.MenuItem();
             this.MenuFileNewOption = new System.Windows.Forms.MenuItem();
@@ -41,7 +42,6 @@ namespace Zork.Builder
             this.MessageCancelButton = new System.Windows.Forms.Button();
             this.MessageConfirmButton = new System.Windows.Forms.Button();
             this.WelcomeMessageTextBox = new System.Windows.Forms.TextBox();
-            this.WelcomeMessageLabel = new System.Windows.Forms.Label();
             this.WorldTab = new System.Windows.Forms.TabPage();
             this.RoomsGroupBox = new System.Windows.Forms.GroupBox();
             this.RoomUpdateButton = new System.Windows.Forms.Button();
@@ -67,12 +67,14 @@ namespace Zork.Builder
             this.TabControl = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            WelcomeMessageContainer = new System.Windows.Forms.GroupBox();
             this.GameTab.SuspendLayout();
             this.WorldTab.SuspendLayout();
             this.RoomsGroupBox.SuspendLayout();
             this.NeighborsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).BeginInit();
             this.TabControl.SuspendLayout();
+            WelcomeMessageContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -128,10 +130,7 @@ namespace Zork.Builder
             // 
             // GameTab
             // 
-            this.GameTab.Controls.Add(this.MessageCancelButton);
-            this.GameTab.Controls.Add(this.MessageConfirmButton);
-            this.GameTab.Controls.Add(this.WelcomeMessageTextBox);
-            this.GameTab.Controls.Add(this.WelcomeMessageLabel);
+            this.GameTab.Controls.Add(WelcomeMessageContainer);
             this.GameTab.Location = new System.Drawing.Point(4, 22);
             this.GameTab.Name = "GameTab";
             this.GameTab.Padding = new System.Windows.Forms.Padding(3);
@@ -143,7 +142,7 @@ namespace Zork.Builder
             // MessageCancelButton
             // 
             this.MessageCancelButton.Enabled = false;
-            this.MessageCancelButton.Location = new System.Drawing.Point(197, 55);
+            this.MessageCancelButton.Location = new System.Drawing.Point(311, 108);
             this.MessageCancelButton.Name = "MessageCancelButton";
             this.MessageCancelButton.Size = new System.Drawing.Size(75, 23);
             this.MessageCancelButton.TabIndex = 3;
@@ -154,7 +153,7 @@ namespace Zork.Builder
             // MessageConfirmButton
             // 
             this.MessageConfirmButton.Enabled = false;
-            this.MessageConfirmButton.Location = new System.Drawing.Point(43, 55);
+            this.MessageConfirmButton.Location = new System.Drawing.Point(113, 108);
             this.MessageConfirmButton.Name = "MessageConfirmButton";
             this.MessageConfirmButton.Size = new System.Drawing.Size(75, 23);
             this.MessageConfirmButton.TabIndex = 2;
@@ -165,20 +164,12 @@ namespace Zork.Builder
             // WelcomeMessageTextBox
             // 
             this.WelcomeMessageTextBox.Enabled = false;
-            this.WelcomeMessageTextBox.Location = new System.Drawing.Point(10, 20);
+            this.WelcomeMessageTextBox.Location = new System.Drawing.Point(6, 19);
+            this.WelcomeMessageTextBox.Multiline = true;
             this.WelcomeMessageTextBox.Name = "WelcomeMessageTextBox";
-            this.WelcomeMessageTextBox.Size = new System.Drawing.Size(273, 20);
+            this.WelcomeMessageTextBox.Size = new System.Drawing.Size(512, 73);
             this.WelcomeMessageTextBox.TabIndex = 1;
             this.WelcomeMessageTextBox.Text = "Welcome to Zork!";
-            // 
-            // WelcomeMessageLabel
-            // 
-            this.WelcomeMessageLabel.AutoSize = true;
-            this.WelcomeMessageLabel.Location = new System.Drawing.Point(7, 3);
-            this.WelcomeMessageLabel.Name = "WelcomeMessageLabel";
-            this.WelcomeMessageLabel.Size = new System.Drawing.Size(98, 13);
-            this.WelcomeMessageLabel.TabIndex = 0;
-            this.WelcomeMessageLabel.Text = "Welcome Message";
             // 
             // WorldTab
             // 
@@ -320,7 +311,7 @@ namespace Zork.Builder
             // 
             this.NeighborWestDropBox.Enabled = false;
             this.NeighborWestDropBox.FormattingEnabled = true;
-            this.NeighborWestDropBox.Location = new System.Drawing.Point(4, 84);
+            this.NeighborWestDropBox.Location = new System.Drawing.Point(4, 79);
             this.NeighborWestDropBox.Margin = new System.Windows.Forms.Padding(1);
             this.NeighborWestDropBox.MaxDropDownItems = 100;
             this.NeighborWestDropBox.Name = "NeighborWestDropBox";
@@ -331,7 +322,7 @@ namespace Zork.Builder
             // 
             this.NeighborEastDropBox.Enabled = false;
             this.NeighborEastDropBox.FormattingEnabled = true;
-            this.NeighborEastDropBox.Location = new System.Drawing.Point(196, 84);
+            this.NeighborEastDropBox.Location = new System.Drawing.Point(196, 79);
             this.NeighborEastDropBox.Margin = new System.Windows.Forms.Padding(1);
             this.NeighborEastDropBox.MaxDropDownItems = 100;
             this.NeighborEastDropBox.Name = "NeighborEastDropBox";
@@ -351,7 +342,7 @@ namespace Zork.Builder
             // NeighborWestLabel
             // 
             this.NeighborWestLabel.AutoSize = true;
-            this.NeighborWestLabel.Location = new System.Drawing.Point(31, 70);
+            this.NeighborWestLabel.Location = new System.Drawing.Point(31, 65);
             this.NeighborWestLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.NeighborWestLabel.Name = "NeighborWestLabel";
             this.NeighborWestLabel.Size = new System.Drawing.Size(32, 13);
@@ -361,7 +352,7 @@ namespace Zork.Builder
             // NeighborEastLabel
             // 
             this.NeighborEastLabel.AutoSize = true;
-            this.NeighborEastLabel.Location = new System.Drawing.Point(232, 70);
+            this.NeighborEastLabel.Location = new System.Drawing.Point(232, 65);
             this.NeighborEastLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.NeighborEastLabel.Name = "NeighborEastLabel";
             this.NeighborEastLabel.Size = new System.Drawing.Size(28, 13);
@@ -437,6 +428,18 @@ namespace Zork.Builder
             this.saveFileDialog.RestoreDirectory = true;
             this.saveFileDialog.Title = "Save Game File As";
             // 
+            // WelcomeMessageContainer
+            // 
+            WelcomeMessageContainer.Controls.Add(this.WelcomeMessageTextBox);
+            WelcomeMessageContainer.Controls.Add(this.MessageCancelButton);
+            WelcomeMessageContainer.Controls.Add(this.MessageConfirmButton);
+            WelcomeMessageContainer.Location = new System.Drawing.Point(8, 6);
+            WelcomeMessageContainer.Name = "WelcomeMessageContainer";
+            WelcomeMessageContainer.Size = new System.Drawing.Size(524, 139);
+            WelcomeMessageContainer.TabIndex = 4;
+            WelcomeMessageContainer.TabStop = false;
+            WelcomeMessageContainer.Text = "Welcome Message";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -453,7 +456,6 @@ namespace Zork.Builder
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Zork Builder";
             this.GameTab.ResumeLayout(false);
-            this.GameTab.PerformLayout();
             this.WorldTab.ResumeLayout(false);
             this.WorldTab.PerformLayout();
             this.RoomsGroupBox.ResumeLayout(false);
@@ -461,6 +463,8 @@ namespace Zork.Builder
             this.NeighborsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.defaultBindingSource)).EndInit();
             this.TabControl.ResumeLayout(false);
+            WelcomeMessageContainer.ResumeLayout(false);
+            WelcomeMessageContainer.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -482,7 +486,6 @@ namespace Zork.Builder
         private System.Windows.Forms.MenuItem MenuFileSaveAsOption;
         private System.Windows.Forms.TabPage GameTab;
         private System.Windows.Forms.TextBox WelcomeMessageTextBox;
-        private System.Windows.Forms.Label WelcomeMessageLabel;
         private System.Windows.Forms.TabPage WorldTab;
         private System.Windows.Forms.TextBox RoomDescriptionTextBox;
         private System.Windows.Forms.TextBox RoomNameTextBox;

@@ -461,7 +461,7 @@ namespace Zork.Builder
 
             else if (string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) == true)
             {
-                MessageBox.Show("The welcome message cannot accept empty phrases. Enter a complete phrase.");
+                MessageBox.Show("The welcome message cannot accept only spacs or empty phrases!");
             }
         }
 
