@@ -1,0 +1,28 @@
+{
+  "World": {
+    "StartingLocation": "Test 1",
+    "WelcomeMessage": "Welcome to the test!",
+    "Rooms": [
+      {
+        "Name": "Test 1",
+        "Description": "Just a Test",
+        "Neighbors": {
+          "North": "",
+          "South": "Test 2",
+          "West": "",
+          "East": ""
+        }
+      },
+      {
+        "Name": "Test 2",
+        "Description": "Another Test",
+        "Neighbors": {
+          "North": "Test 1",
+          "South": "",
+          "West": "",
+          "East": ""
+        }
+      }
+    ]
+  }
+}

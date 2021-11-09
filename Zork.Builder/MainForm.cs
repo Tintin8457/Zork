@@ -217,8 +217,11 @@ namespace Zork.Builder
 
                     StartingLocationDropBox.Items.RemoveAt(index);
                     StartingLocationDropBox.Items.Insert(index, StoredRoot.World.Rooms[index]);
+                    StartingLocationDropBox.Text = StoredRoot.World.StartingLocation;
 
                     UpdateNeighborsByName(oldName, StoredRoot.World.Rooms[index].Name);
+
+                    ClearRoomForm();
                 }
 
                 catch
@@ -453,21 +456,22 @@ namespace Zork.Builder
 
         private void MessageConfirmButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) == false && WelcomeMessageTextBox.Text.Length > 0)
+            if (!string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) && WelcomeMessageTextBox.Text.Length > 0)
             {
                 MessageBox.Show("The new welcome message has been saved!");
                 StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
             }
 
-            else if (string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) == true)
+            else if (string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text))
             {
-                MessageBox.Show("The welcome message cannot accept only spacs or empty phrases!");
+                MessageBox.Show("The welcome message cannot be empty or contain only spaces!");
             }
         }
 
         private void MessageCancelButton_Click(object sender, EventArgs e)
         {
             MessageBox.Show("You cancelled entering in a new welcome message!");
+            WelcomeMessageTextBox.Text = StoredRoot.World.WelcomeMessage;
         }
     }
 }
