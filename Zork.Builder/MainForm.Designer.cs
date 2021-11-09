@@ -38,6 +38,8 @@ namespace Zork.Builder
             this.MenuFileSaveOption = new System.Windows.Forms.MenuItem();
             this.MenuFileSaveAsOption = new System.Windows.Forms.MenuItem();
             this.GameTab = new System.Windows.Forms.TabPage();
+            this.MessageCancelButton = new System.Windows.Forms.Button();
+            this.MessageConfirmButton = new System.Windows.Forms.Button();
             this.WelcomeMessageTextBox = new System.Windows.Forms.TextBox();
             this.WelcomeMessageLabel = new System.Windows.Forms.Label();
             this.WorldTab = new System.Windows.Forms.TabPage();
@@ -110,6 +112,7 @@ namespace Zork.Builder
             // 
             // MenuFileSaveOption
             // 
+            this.MenuFileSaveOption.Enabled = false;
             this.MenuFileSaveOption.Index = 3;
             this.MenuFileSaveOption.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.MenuFileSaveOption.Text = "&Save Game File";
@@ -117,6 +120,7 @@ namespace Zork.Builder
             // 
             // MenuFileSaveAsOption
             // 
+            this.MenuFileSaveAsOption.Enabled = false;
             this.MenuFileSaveAsOption.Index = 4;
             this.MenuFileSaveAsOption.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
             this.MenuFileSaveAsOption.Text = "&Save Game File As...";
@@ -124,6 +128,8 @@ namespace Zork.Builder
             // 
             // GameTab
             // 
+            this.GameTab.Controls.Add(this.MessageCancelButton);
+            this.GameTab.Controls.Add(this.MessageConfirmButton);
             this.GameTab.Controls.Add(this.WelcomeMessageTextBox);
             this.GameTab.Controls.Add(this.WelcomeMessageLabel);
             this.GameTab.Location = new System.Drawing.Point(4, 22);
@@ -134,14 +140,36 @@ namespace Zork.Builder
             this.GameTab.Text = "Game";
             this.GameTab.UseVisualStyleBackColor = true;
             // 
+            // MessageCancelButton
+            // 
+            this.MessageCancelButton.Enabled = false;
+            this.MessageCancelButton.Location = new System.Drawing.Point(197, 55);
+            this.MessageCancelButton.Name = "MessageCancelButton";
+            this.MessageCancelButton.Size = new System.Drawing.Size(75, 23);
+            this.MessageCancelButton.TabIndex = 3;
+            this.MessageCancelButton.Text = "Cancel";
+            this.MessageCancelButton.UseVisualStyleBackColor = true;
+            this.MessageCancelButton.Click += new System.EventHandler(this.MessageCancelButton_Click);
+            // 
+            // MessageConfirmButton
+            // 
+            this.MessageConfirmButton.Enabled = false;
+            this.MessageConfirmButton.Location = new System.Drawing.Point(43, 55);
+            this.MessageConfirmButton.Name = "MessageConfirmButton";
+            this.MessageConfirmButton.Size = new System.Drawing.Size(75, 23);
+            this.MessageConfirmButton.TabIndex = 2;
+            this.MessageConfirmButton.Text = "Ok";
+            this.MessageConfirmButton.UseVisualStyleBackColor = true;
+            this.MessageConfirmButton.Click += new System.EventHandler(this.MessageConfirmButton_Click);
+            // 
             // WelcomeMessageTextBox
             // 
+            this.WelcomeMessageTextBox.Enabled = false;
             this.WelcomeMessageTextBox.Location = new System.Drawing.Point(10, 20);
             this.WelcomeMessageTextBox.Name = "WelcomeMessageTextBox";
             this.WelcomeMessageTextBox.Size = new System.Drawing.Size(273, 20);
             this.WelcomeMessageTextBox.TabIndex = 1;
             this.WelcomeMessageTextBox.Text = "Welcome to Zork!";
-            this.WelcomeMessageTextBox.TextChanged += new System.EventHandler(this.WelcomeMessageTextBox_Changed);
             // 
             // WelcomeMessageLabel
             // 
@@ -185,6 +213,7 @@ namespace Zork.Builder
             // 
             // RoomUpdateButton
             // 
+            this.RoomUpdateButton.Enabled = false;
             this.RoomUpdateButton.Location = new System.Drawing.Point(138, 260);
             this.RoomUpdateButton.Name = "RoomUpdateButton";
             this.RoomUpdateButton.Size = new System.Drawing.Size(60, 25);
@@ -204,6 +233,7 @@ namespace Zork.Builder
             // 
             // RoomAddButton
             // 
+            this.RoomAddButton.Enabled = false;
             this.RoomAddButton.Location = new System.Drawing.Point(6, 260);
             this.RoomAddButton.Name = "RoomAddButton";
             this.RoomAddButton.Size = new System.Drawing.Size(60, 25);
@@ -214,6 +244,7 @@ namespace Zork.Builder
             // 
             // RoomRemoveButton
             // 
+            this.RoomRemoveButton.Enabled = false;
             this.RoomRemoveButton.Location = new System.Drawing.Point(72, 260);
             this.RoomRemoveButton.Name = "RoomRemoveButton";
             this.RoomRemoveButton.Size = new System.Drawing.Size(60, 25);
@@ -224,6 +255,7 @@ namespace Zork.Builder
             // 
             // RoomDescriptionTextBox
             // 
+            this.RoomDescriptionTextBox.Enabled = false;
             this.RoomDescriptionTextBox.Location = new System.Drawing.Point(230, 72);
             this.RoomDescriptionTextBox.Multiline = true;
             this.RoomDescriptionTextBox.Name = "RoomDescriptionTextBox";
@@ -232,6 +264,7 @@ namespace Zork.Builder
             // 
             // RoomNameTextBox
             // 
+            this.RoomNameTextBox.Enabled = false;
             this.RoomNameTextBox.Location = new System.Drawing.Point(230, 25);
             this.RoomNameTextBox.Name = "RoomNameTextBox";
             this.RoomNameTextBox.Size = new System.Drawing.Size(300, 20);
@@ -274,6 +307,7 @@ namespace Zork.Builder
             // 
             // NeighborSouthDropBox
             // 
+            this.NeighborSouthDropBox.Enabled = false;
             this.NeighborSouthDropBox.FormattingEnabled = true;
             this.NeighborSouthDropBox.Location = new System.Drawing.Point(100, 138);
             this.NeighborSouthDropBox.Margin = new System.Windows.Forms.Padding(1);
@@ -284,6 +318,7 @@ namespace Zork.Builder
             // 
             // NeighborWestDropBox
             // 
+            this.NeighborWestDropBox.Enabled = false;
             this.NeighborWestDropBox.FormattingEnabled = true;
             this.NeighborWestDropBox.Location = new System.Drawing.Point(4, 84);
             this.NeighborWestDropBox.Margin = new System.Windows.Forms.Padding(1);
@@ -294,6 +329,7 @@ namespace Zork.Builder
             // 
             // NeighborEastDropBox
             // 
+            this.NeighborEastDropBox.Enabled = false;
             this.NeighborEastDropBox.FormattingEnabled = true;
             this.NeighborEastDropBox.Location = new System.Drawing.Point(196, 84);
             this.NeighborEastDropBox.Margin = new System.Windows.Forms.Padding(1);
@@ -344,6 +380,7 @@ namespace Zork.Builder
             // 
             // NeighborNorthDropBox
             // 
+            this.NeighborNorthDropBox.Enabled = false;
             this.NeighborNorthDropBox.FormattingEnabled = true;
             this.NeighborNorthDropBox.Location = new System.Drawing.Point(100, 30);
             this.NeighborNorthDropBox.Margin = new System.Windows.Forms.Padding(1);
@@ -354,6 +391,8 @@ namespace Zork.Builder
             // 
             // StartingLocationDropBox
             // 
+            this.StartingLocationDropBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.StartingLocationDropBox.Enabled = false;
             this.StartingLocationDropBox.FormattingEnabled = true;
             this.StartingLocationDropBox.Location = new System.Drawing.Point(6, 25);
             this.StartingLocationDropBox.MaxDropDownItems = 100;
@@ -469,6 +508,8 @@ namespace Zork.Builder
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button RoomUpdateButton;
         private System.Windows.Forms.ComboBox NeighborNorthDropBox;
+        private System.Windows.Forms.Button MessageCancelButton;
+        private System.Windows.Forms.Button MessageConfirmButton;
     }
 }
 

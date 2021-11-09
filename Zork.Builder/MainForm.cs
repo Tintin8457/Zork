@@ -77,6 +77,8 @@ namespace Zork.Builder
 
             //Clear the Form
             ClearRoomForm();
+
+            EnableSaveFileOptionsAndRoomButtons();
         }
 
         private void Open_File(object sender, EventArgs e)
@@ -116,6 +118,8 @@ namespace Zork.Builder
 
             //Clear the Form
             ClearRoomForm();
+
+            EnableSaveFileOptionsAndRoomButtons();
         }
 
         private void Save_File(object sender, EventArgs e)
@@ -186,7 +190,7 @@ namespace Zork.Builder
 
             catch
             {
-                //MessageBox.Show(ex.Message);
+                MessageBox.Show("No room selected!");
             }
         }
 
@@ -279,8 +283,6 @@ namespace Zork.Builder
                 }
             }
         }
-
-        
 
         private List<Room> GetRoomsList()
         {
@@ -419,9 +421,53 @@ namespace Zork.Builder
             NeighborEastDropBox.DisplayMember = "Name";
         }
 
-        private void WelcomeMessageTextBox_Changed(object sender, EventArgs e)
+        private void EnableSaveFileOptionsAndRoomButtons()
         {
-            StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
+            MenuFileSaveOption.Enabled = true;
+            MenuFileSaveAsOption.Enabled = true;
+
+            RoomAddButton.Enabled = true;
+            RoomRemoveButton.Enabled = true;
+            RoomUpdateButton.Enabled = true;
+
+            StartingLocationDropBox.Enabled = true;
+            RoomNameTextBox.Enabled = true;
+            RoomDescriptionTextBox.Enabled = true;
+
+            NeighborNorthDropBox.Enabled = true;
+            NeighborWestDropBox.Enabled = true;
+            NeighborSouthDropBox.Enabled = true;
+            NeighborEastDropBox.Enabled = true;
+
+            MessageConfirmButton.Enabled = true;
+            MessageCancelButton.Enabled = true;
+            WelcomeMessageTextBox.Enabled = true;
+        }
+
+        private void DisableRoomButtons()
+        {
+            RoomAddButton.Enabled = false;
+            RoomRemoveButton.Enabled = false;
+            RoomUpdateButton.Enabled = false;
+        }
+
+        private void MessageConfirmButton_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) == false && WelcomeMessageTextBox.Text.Length > 0)
+            {
+                MessageBox.Show("The new welcome message has been saved!");
+                StoredRoot.World.WelcomeMessage = WelcomeMessageTextBox.Text;
+            }
+
+            else if (string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) == true)
+            {
+                MessageBox.Show("The welcome message cannot accept empty phrases. Enter a complete phrase.");
+            }
+        }
+
+        private void MessageCancelButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("You cancelled entering in a new welcome message!");
         }
     }
 }

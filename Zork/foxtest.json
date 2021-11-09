@@ -1,46 +1,46 @@
 {
   "World": {
-    "StartingLocation": "bully",
-    "WelcomeMessage": "",
+    "StartingLocation": "cool",
+    "WelcomeMessage": "done",
     "Rooms": [
       {
-        "Name": "Dem",
-        "Description": "Defaulscription",
+        "Name": "we",
+        "Description": "Defaultription",
         "Neighbors": {
           "North": "",
-          "South": "pizza",
+          "South": "ok",
           "West": "",
           "East": ""
         }
       },
       {
-        "Name": "bully",
-        "Description": "jazz",
+        "Name": "peter",
+        "Description": "Niption",
         "Neighbors": {
-          "North": "fan",
+          "North": "cool",
           "South": "",
           "West": "",
           "East": ""
         }
       },
       {
-        "Name": "pizza",
-        "Description": "Nbotion",
+        "Name": "cool",
+        "Description": "ay",
         "Neighbors": {
           "North": "",
           "South": "",
-          "West": "bully",
+          "West": "we",
           "East": ""
         }
       },
       {
-        "Name": "fan",
-        "Description": "whteber",
+        "Name": "ok",
+        "Description": "test",
         "Neighbors": {
           "North": "",
           "South": "",
           "West": "",
-          "East": "Dem"
+          "East": "peter"
         }
       }
     ]
