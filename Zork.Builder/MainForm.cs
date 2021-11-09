@@ -447,13 +447,6 @@ namespace Zork.Builder
             WelcomeMessageTextBox.Enabled = true;
         }
 
-        private void DisableRoomButtons()
-        {
-            RoomAddButton.Enabled = false;
-            RoomRemoveButton.Enabled = false;
-            RoomUpdateButton.Enabled = false;
-        }
-
         private void MessageConfirmButton_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(WelcomeMessageTextBox.Text) && WelcomeMessageTextBox.Text.Length > 0)
