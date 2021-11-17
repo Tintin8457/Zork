@@ -7,34 +7,36 @@ namespace Zork
     public class Player 
     {
         public event EventHandler<Room> LocationChanged;
+        public event EventHandler<int> ScoreChanged;
+        public event EventHandler<EventArgs> PlayerChanged;
 
         public World World { get; }
 
         [JsonIgnore]
-        public Room Location { get; private set; }
-        
-        [JsonIgnore]
-        public string LocationName
+        public Room Location 
         {
             get
             {
-                return _location?.Name;
+                return _location;
             }
 
-            set
+            private set
             {
-                if (_location != value)
+                if(LocationChanged != null)
                 {
-                    _location = World?.RoomNames.GetValueOrDefault(value);
-                    LocationChanged?.Invoke(this, _location);
+                    _location = value;
+                    LocationChanged.Invoke(this, _location);
                 }
             }
         }
 
         public Player(World mWorld, string startLocation)
         {
+            Assert.IsTrue(mWorld != null);
+            Assert.IsTrue(mWorld.RoomNames.ContainsKey(startLocation));
+
             World = mWorld;
-            LocationName = startLocation;
+            Location = mWorld.RoomNames[startLocation];
         }
 
         public bool Move(Directions direction)
