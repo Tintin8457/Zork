@@ -1,15 +1,28 @@
-﻿namespace Zork
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Zork
 {
-    public enum Commands
+    public class Commands
     {
-        UNKNOWN,
-        QUIT,
-        LOOK,
-        SCORE,
-        REWARD,
-        NORTH,
-        SOUTH,
-        WEST,
-        EAST
+        public string Name { get; set; }
+
+        public string[] Verbs { get; set; }
+
+        public Action<Game> Action { get; set; }
+
+        public Commands(string name, IEnumerable<string> verbs, Action<Game> action)
+        {
+            Assert.IsNotNull(name);
+            Assert.IsNotNull(verbs);
+            Assert.IsNotNull(action);
+
+            Name = name;
+            Verbs = verbs.ToArray();
+            Action = action;
+        }
+
+        public override string ToString() => Name;
     }
 }

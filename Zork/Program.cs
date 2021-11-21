@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 
 namespace Zork
@@ -19,7 +18,7 @@ namespace Zork
             //game.Player.LocationChanged += Player_LocationChanged;
 
             output.WriteLine(string.IsNullOrWhiteSpace(game.WelcomeMessage) ? "Welcome to Zork!" : game.WelcomeMessage);
-            game.Start(input, output);
+            game.Run(input, output);
 
             while (game.IsRunning)
             {
