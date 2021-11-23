@@ -358,7 +358,10 @@ Zork.Common/bin/
 Zork.Common/obj/
 Zork.Common/.vs/
 Zork.Unity/Library/
+Zork.Unity/.vs/
 Zork.Unity/Logs/
 Zork.Unity/Zork.Unity.sln/
 Zork.Unity/ZorkUnity.sln/
 Zork.Unity/UserSettings/
+Zork.Unity/.vsconfig/
+Zork.Unity/.Assembly-CSharp.csproj/
