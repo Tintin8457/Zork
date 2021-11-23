@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿//using System.IO;
 using Newtonsoft.Json;
 
 namespace Zork
 {
+    class GameObject { }
+
     internal class Program
     {
         static void Main(string[] args)
@@ -10,20 +12,19 @@ namespace Zork
             const string defaultZorkFileName = "Zork.json";
             string gameFileName = (args.Length > 0 ? args[(int)CommandLineArguments.GameFilename] : defaultZorkFileName);
 
-            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(gameFileName));
+            Game game = JsonConvert.DeserializeObject<Game>(gameFileName);
 
             ConsoleInputService input = new ConsoleInputService();
             ConsoleOuputService output = new ConsoleOuputService();
             
-            //game.Player.LocationChanged += Player_LocationChanged;
 
             output.WriteLine(string.IsNullOrWhiteSpace(game.WelcomeMessage) ? "Welcome to Zork!" : game.WelcomeMessage);
             game.Run(input, output);
 
+            Room previousRoom = null;
+
             while (game.IsRunning)
             {
-                Room previousRoom = null;
-
                 output.WriteLine(game.Player.Location);
 
                 if (previousRoom != game.Player.Location)

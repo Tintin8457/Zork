@@ -9,6 +9,7 @@ namespace Zork
         public event EventHandler<Room> LocationChanged;
         public event EventHandler<int> ScoreChanged;
         public event EventHandler<EventArgs> PlayerChanged;
+        public event EventHandler<int> MovesChanged;
 
         public World World { get; }
 
